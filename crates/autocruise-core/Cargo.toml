@@ -1,6 +1,6 @@
 [package]
 name = "autocruise-core"
-description = "Shared building blocks for autocruise connectors: time zones, throttling, caching."
+description = "Shared building blocks for autocruise connectors: time zones, HTTP transport, errors, throttling, caching."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -8,6 +8,7 @@ repository.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+reqwest.workspace = true
 chrono.workspace = true
 chrono-tz.workspace = true
 thiserror.workspace = true

@@ -10,10 +10,12 @@ Status: early. The SNCF connector works; others are planned. Read [docs/ARCHITEC
 
 ## Layout
 
-- `crates/autocruise/`: binary. MCP server (rmcp, stdio) in `src/server.rs`, CLI in `src/main.rs`.
-- `crates/autocruise-core/`: shared time zone handling, throttling, cache.
-- `connectors/<service>/`: one crate per service (`autocruise-<service>`), with `tests/fixtures/`.
+- `crates/autocruise/`: binary. `src/server.rs` (MCP server + registry, connector-agnostic), `src/tools/<connector>.rs` (MCP tool wrappers), `src/local.rs` (in-process client used by the CLI).
+- `crates/autocruise-core/`: shared time zone handling, HTTP transport (real + mock), error kinds, throttling, cache.
+- `connectors/<service>/`: one crate per service (`autocruise-<service>`), MCP-agnostic, with `tests/fixtures/` and `tests/requests.rs`.
 - `docs/`: principles, architecture, one page per connector.
+
+Dependency rules: connectors never depend on `rmcp` or `reqwest` (use `autocruise_core::http`); `server.rs` never names a connector.
 
 ## Useful commands
 
@@ -41,6 +43,7 @@ Read [docs/PRINCIPLES.md](docs/PRINCIPLES.md) before writing any connector. In s
 - Tests must **never hit live sites**. Use recorded fixtures (sanitized: no personal data, no tokens).
 - Times: outputs are RFC 3339 in Europe/Paris **with offset**; inputs without offset are Europe/Paris. Use `autocruise_core::time`; never format local times by hand.
 - Each connector is self-contained and can be disabled at runtime.
+- Connector errors implement `autocruise_core::error::Classify`; tools return `ToolError` (JSON contract in `docs/ARCHITECTURE.md`).
 - Tool names: `snake_case`, prefixed by connector when ambiguous (e.g. `leclerc_search_products`). Tool descriptions are prompts for the model: keep them precise and state side effects.
 - Small, focused commits with imperative messages (`Add Leclerc store search`).
 

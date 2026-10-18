@@ -1,11 +1,21 @@
 //! autocruise: local MCP server (stdio) + small debugging CLI.
+//!
+//! - `server`: the MCP server and its connector registry.
+//! - `tools`: one module per connector, exposing its MCP tools.
+//! - `error`: tool error contract.
+//! - `local`: in-process MCP client used by the CLI.
 
+mod error;
+mod local;
 mod server;
+mod tools;
 
 use anyhow::Context;
 use clap::{Parser, Subcommand};
 use rmcp::ServiceExt;
-use server::{Autocruise, Connector};
+use rmcp::model::CallToolRequestParams;
+use server::Autocruise;
+use tools::Connector;
 
 #[derive(Parser)]
 #[command(
@@ -54,16 +64,30 @@ async fn main() -> anyhow::Result<()> {
             service.waiting().await?;
         }
         Command::Tools(e) => {
-            let tools = Autocruise::new(&e.enable).list_tools();
-            println!("{}", serde_json::to_string_pretty(&tools)?);
+            let client = local::connect(Autocruise::new(&e.enable)).await?;
+            let tools = client.list_all_tools().await;
+            client.cancel().await.ok();
+            println!("{}", serde_json::to_string_pretty(&tools?)?);
         }
         Command::Call { tool, args, enable } => {
             let args: serde_json::Value =
-                serde_json::from_str(&args).context("arguments must be a JSON object")?;
-            match Autocruise::new(&enable.enable).call(&tool, args).await {
-                Ok(value) => println!("{}", serde_json::to_string_pretty(&value)?),
-                Err(e) => anyhow::bail!(e),
+                serde_json::from_str(&args).context("arguments must be valid JSON")?;
+            let args = args
+                .as_object()
+                .cloned()
+                .context("arguments must be a JSON object")?;
+            let client = local::connect(Autocruise::new(&enable.enable)).await?;
+            let result = client
+                .call_tool(CallToolRequestParams::new(tool).with_arguments(args))
+                .await;
+            client.cancel().await.ok();
+            let result = result?;
+            let output = local::render(&result)?;
+            if result.is_error == Some(true) {
+                eprintln!("{output}");
+                std::process::exit(1);
             }
+            println!("{output}");
         }
     }
     Ok(())
