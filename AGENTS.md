@@ -6,7 +6,22 @@ Guidance for AI coding agents (and humans) working on this repository.
 
 autocruise is a **local MCP server** (plus a small CLI) that gives AI assistants tools for everyday services: groceries (Carrefour, E.Leclerc, Intermarché, cross-store basket comparison), health (Doctolib), transport (SNCF, IDFM), and more later.
 
-Status: early design. Architecture is being defined in `docs/ARCHITECTURE.md` (to be written).
+Status: early. The SNCF connector works; others are planned. Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) first.
+
+## Layout
+
+- `crates/autocruise/`: binary. MCP server (rmcp, stdio) in `src/server.rs`, CLI in `src/main.rs`.
+- `crates/autocruise-core/`: shared time zone handling, throttling, cache.
+- `connectors/<service>/`: one crate per service (`autocruise-<service>`), with `tests/fixtures/`.
+- `docs/`: principles, architecture, one page per connector.
+
+## Useful commands
+
+```bash
+cargo run -- tools                                   # list tools and schemas
+cargo run -- call sncf_departures '{"station":"Paris Montparnasse"}'   # live call (needs SNCF_API_TOKEN)
+cargo run -- mcp                                     # stdio MCP server
+```
 
 ## Non-negotiable rules
 
@@ -24,6 +39,7 @@ Read [docs/PRINCIPLES.md](docs/PRINCIPLES.md) before writing any connector. In s
 - **English everywhere**: code, comments, docs, commit messages, issues.
 - Language: **Rust** (stable). Format with `cargo fmt`, lint with `cargo clippy --all-targets -- -D warnings`, test with `cargo test`.
 - Tests must **never hit live sites**. Use recorded fixtures (sanitized: no personal data, no tokens).
+- Times: outputs are RFC 3339 in Europe/Paris **with offset**; inputs without offset are Europe/Paris. Use `autocruise_core::time`; never format local times by hand.
 - Each connector is self-contained and can be disabled at runtime.
 - Tool names: `snake_case`, prefixed by connector when ambiguous (e.g. `leclerc_search_products`). Tool descriptions are prompts for the model: keep them precise and state side effects.
 - Small, focused commits with imperative messages (`Add Leclerc store search`).

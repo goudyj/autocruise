@@ -1,0 +1,30 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "connectors/*"]
+default-members = ["crates/*", "connectors/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/goudyj/autocruise"
+rust-version = "1.88"
+
+[workspace.dependencies]
+autocruise-core = { path = "crates/autocruise-core" }
+autocruise-sncf = { path = "connectors/sncf" }
+
+anyhow = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+chrono-tz = "0.10"
+clap = { version = "4", features = ["derive"] }
+reqwest = "0.13"
+rmcp = { version = "3.5", features = ["server", "macros", "transport-io"] }
+schemars = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time", "io-std"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"

@@ -1,0 +1,794 @@
+{
+ "pagination": {
+  "total_result": 3,
+  "start_page": 0,
+  "items_per_page": 3,
+  "items_on_page": 3
+ },
+ "disruptions": [],
+ "origins": [
+  {
+   "id": "stop_area:SNCF:87743005",
+   "name": "Bourg-en-Bresse",
+   "codes": [
+    {
+     "type": "source",
+     "value": "87743005"
+    },
+    {
+     "type": "uic",
+     "value": "87743005"
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "label": "Bourg-en-Bresse (Bourg-en-Bresse)",
+   "coord": {
+    "lon": "5.215011",
+    "lat": "46.200111"
+   },
+   "links": []
+  },
+  {
+   "id": "stop_area:SNCF:87722025",
+   "name": "Lyon Perrache",
+   "codes": [
+    {
+     "type": "source",
+     "value": "87722025"
+    },
+    {
+     "type": "uic",
+     "value": "87722025"
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "label": "Lyon Perrache (Lyon)",
+   "coord": {
+    "lon": "4.825777",
+    "lat": "45.748508"
+   },
+   "links": []
+  },
+  {
+   "id": "stop_area:SNCF:87726000",
+   "name": "Saint-Étienne Châteaucreux",
+   "codes": [
+    {
+     "type": "source",
+     "value": "87726000"
+    },
+    {
+     "type": "uic",
+     "value": "87726000"
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "label": "Saint-Étienne Châteaucreux (Saint-Étienne)",
+   "coord": {
+    "lon": "4.399722",
+    "lat": "45.443366"
+   },
+   "links": []
+  }
+ ],
+ "context": {
+  "current_datetime": "20261018T233312",
+  "timezone": "Europe/Paris"
+ },
+ "arrivals": [
+  {
+   "route": {
+    "id": "route:SNCF:FR:Line::BE0A8D1F-C84D-4D75-87C8-D89DF19D1D40:",
+    "name": "C23",
+    "is_frequence": "False",
+    "direction_type": "forward",
+    "physical_modes": [
+     {
+      "id": "physical_mode:Coach",
+      "name": "Autocar"
+     },
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités"
+     }
+    ],
+    "direction": {
+     "id": "stop_area:SNCF:87743005",
+     "name": "Bourg-en-Bresse (Bourg-en-Bresse)",
+     "quality": 0,
+     "stop_area": {
+      "id": "stop_area:SNCF:87743005",
+      "name": "Bourg-en-Bresse",
+      "codes": [
+       {
+        "type": "source",
+        "value": "87743005"
+       },
+       {
+        "type": "uic",
+        "value": "87743005"
+       }
+      ],
+      "timezone": "Europe/Paris",
+      "label": "Bourg-en-Bresse (Bourg-en-Bresse)",
+      "coord": {
+       "lon": "5.215011",
+       "lat": "46.200111"
+      },
+      "links": []
+     },
+     "embedded_type": "stop_area"
+    },
+    "links": [],
+    "line": {
+     "id": "line:SNCF:FR:Line::BE0A8D1F-C84D-4D75-87C8-D89DF19D1D40:",
+     "name": "C23",
+     "code": "C23",
+     "color": "",
+     "text_color": "",
+     "codes": [],
+     "physical_modes": [
+      {
+       "id": "physical_mode:Train",
+       "name": "TER / Intercités"
+      },
+      {
+       "id": "physical_mode:Coach",
+       "name": "Autocar"
+      }
+     ],
+     "commercial_mode": {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     },
+     "network": {
+      "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA",
+      "links": []
+     },
+     "opening_time": "051700",
+     "closing_time": "234100",
+     "links": []
+    }
+   },
+   "stop_point": {
+    "id": "stop_point:SNCF:87723197:Train",
+    "name": "Lyon Part Dieu",
+    "label": "Lyon Part Dieu (Lyon)",
+    "coord": {
+     "lon": "4.859409",
+     "lat": "45.760596"
+    },
+    "links": [],
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités",
+      "co2_emission_rate": {
+       "value": 11.9,
+       "unit": "gEC/Km"
+      }
+     }
+    ],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:69123",
+      "name": "Lyon",
+      "level": 8,
+      "zip_code": "",
+      "label": "Lyon",
+      "insee": "69123",
+      "coord": {
+       "lon": "4.8320114",
+       "lat": "45.7578137"
+      }
+     }
+    ],
+    "stop_area": {
+     "id": "stop_area:SNCF:87723197",
+     "name": "Lyon Part Dieu",
+     "codes": [
+      {
+       "type": "source",
+       "value": "87723197"
+      },
+      {
+       "type": "uic",
+       "value": "87723197"
+      }
+     ],
+     "timezone": "Europe/Paris",
+     "label": "Lyon Part Dieu (Lyon)",
+     "coord": {
+      "lon": "4.859409",
+      "lat": "45.760596"
+     },
+     "links": [],
+     "administrative_regions": [
+      {
+       "id": "admin:fr:69123",
+       "name": "Lyon",
+       "level": 8,
+       "zip_code": "",
+       "label": "Lyon",
+       "insee": "69123",
+       "coord": {
+        "lon": "4.8320114",
+        "lat": "45.7578137"
+       }
+      }
+     ]
+    }
+   },
+   "stop_date_time": {
+    "departure_date_time": "20261019T080900",
+    "base_departure_date_time": "20261019T080900",
+    "arrival_date_time": "20261019T080400",
+    "base_arrival_date_time": "20261019T080400",
+    "additional_informations": [],
+    "links": [
+     {
+      "type": "stop_area",
+      "rel": "origins",
+      "category": "origin",
+      "id": "stop_area:SNCF:87743005",
+      "internal": true
+     },
+     {
+      "type": "stop_area",
+      "rel": "terminus",
+      "category": "terminus",
+      "id": "stop_area:SNCF:87722025",
+      "internal": true
+     }
+    ],
+    "data_freshness": "base_schedule"
+   },
+   "display_informations": {
+    "commercial_mode": "REGIONAURA",
+    "network": "REGIONAURA",
+    "direction": "Lyon Perrache (Lyon)",
+    "label": "C23",
+    "color": "",
+    "code": "C23",
+    "headsign": "889315",
+    "name": "C23",
+    "links": [
+     {
+      "templated": false,
+      "rel": "origins",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87743005",
+      "category": "origin"
+     },
+     {
+      "templated": false,
+      "rel": "terminus",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87722025",
+      "category": "terminus"
+     }
+    ],
+    "text_color": "",
+    "trip_short_name": "889315",
+    "company": "SNCF Voyageurs",
+    "description": "",
+    "physical_mode": "TER / Intercités"
+   },
+   "links": [
+    {
+     "type": "line",
+     "id": "line:SNCF:FR:Line::BE0A8D1F-C84D-4D75-87C8-D89DF19D1D40:"
+    },
+    {
+     "type": "company",
+     "id": "company:SNCF:1187"
+    },
+    {
+     "type": "vehicle_journey",
+     "id": "vehicle_journey:SNCF:2026-10-19:889315:1187:Train"
+    },
+    {
+     "type": "route",
+     "id": "route:SNCF:FR:Line::BE0A8D1F-C84D-4D75-87C8-D89DF19D1D40:"
+    },
+    {
+     "type": "commercial_mode",
+     "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:"
+    },
+    {
+     "type": "physical_mode",
+     "id": "physical_mode:Train"
+    },
+    {
+     "type": "network",
+     "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:"
+    }
+   ]
+  },
+  {
+   "route": {
+    "id": "route:SNCF:FR:Line::45E281C7-AC50-4A23-9B9F-F73234118E78:",
+    "name": "C12",
+    "is_frequence": "False",
+    "direction_type": "forward",
+    "physical_modes": [
+     {
+      "id": "physical_mode:Coach",
+      "name": "Autocar"
+     },
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités"
+     }
+    ],
+    "direction": {
+     "id": "stop_area:SNCF:87726802",
+     "name": "Roanne (Roanne)",
+     "quality": 0,
+     "stop_area": {
+      "id": "stop_area:SNCF:87726802",
+      "name": "Roanne",
+      "codes": [
+       {
+        "type": "source",
+        "value": "87726802"
+       },
+       {
+        "type": "uic",
+        "value": "87726802"
+       }
+      ],
+      "timezone": "Europe/Paris",
+      "label": "Roanne (Roanne)",
+      "coord": {
+       "lon": "4.063207",
+       "lat": "46.039383"
+      },
+      "links": []
+     },
+     "embedded_type": "stop_area"
+    },
+    "links": [],
+    "line": {
+     "id": "line:SNCF:FR:Line::45E281C7-AC50-4A23-9B9F-F73234118E78:",
+     "name": "C12",
+     "code": "C12",
+     "color": "",
+     "text_color": "",
+     "codes": [],
+     "physical_modes": [
+      {
+       "id": "physical_mode:Coach",
+       "name": "Autocar"
+      },
+      {
+       "id": "physical_mode:Train",
+       "name": "TER / Intercités"
+      }
+     ],
+     "commercial_mode": {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     },
+     "network": {
+      "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA",
+      "links": []
+     },
+     "opening_time": "050600",
+     "closing_time": "002500",
+     "links": []
+    }
+   },
+   "stop_point": {
+    "id": "stop_point:SNCF:87723197:Train",
+    "name": "Lyon Part Dieu",
+    "label": "Lyon Part Dieu (Lyon)",
+    "coord": {
+     "lon": "4.859409",
+     "lat": "45.760596"
+    },
+    "links": [],
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités",
+      "co2_emission_rate": {
+       "value": 11.9,
+       "unit": "gEC/Km"
+      }
+     }
+    ],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:69123",
+      "name": "Lyon",
+      "level": 8,
+      "zip_code": "",
+      "label": "Lyon",
+      "insee": "69123",
+      "coord": {
+       "lon": "4.8320114",
+       "lat": "45.7578137"
+      }
+     }
+    ],
+    "stop_area": {
+     "id": "stop_area:SNCF:87723197",
+     "name": "Lyon Part Dieu",
+     "codes": [
+      {
+       "type": "source",
+       "value": "87723197"
+      },
+      {
+       "type": "uic",
+       "value": "87723197"
+      }
+     ],
+     "timezone": "Europe/Paris",
+     "label": "Lyon Part Dieu (Lyon)",
+     "coord": {
+      "lon": "4.859409",
+      "lat": "45.760596"
+     },
+     "links": [],
+     "administrative_regions": [
+      {
+       "id": "admin:fr:69123",
+       "name": "Lyon",
+       "level": 8,
+       "zip_code": "",
+       "label": "Lyon",
+       "insee": "69123",
+       "coord": {
+        "lon": "4.8320114",
+        "lat": "45.7578137"
+       }
+      }
+     ]
+    }
+   },
+   "stop_date_time": {
+    "departure_date_time": "20261019T080800",
+    "base_departure_date_time": "20261019T080800",
+    "arrival_date_time": "20261019T080500",
+    "base_arrival_date_time": "20261019T080500",
+    "additional_informations": [],
+    "links": [
+     {
+      "type": "stop_area",
+      "rel": "origins",
+      "category": "origin",
+      "id": "stop_area:SNCF:87722025",
+      "internal": true
+     },
+     {
+      "type": "stop_area",
+      "rel": "terminus",
+      "category": "terminus",
+      "id": "stop_area:SNCF:87726802",
+      "internal": true
+     }
+    ],
+    "data_freshness": "base_schedule"
+   },
+   "display_informations": {
+    "commercial_mode": "REGIONAURA",
+    "network": "REGIONAURA",
+    "direction": "Roanne (Roanne)",
+    "label": "C12",
+    "color": "",
+    "code": "C12",
+    "headsign": "886602",
+    "name": "C12",
+    "links": [
+     {
+      "templated": false,
+      "rel": "origins",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87722025",
+      "category": "origin"
+     },
+     {
+      "templated": false,
+      "rel": "terminus",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87726802",
+      "category": "terminus"
+     }
+    ],
+    "text_color": "",
+    "trip_short_name": "886602",
+    "company": "SNCF Voyageurs",
+    "description": "",
+    "physical_mode": "TER / Intercités"
+   },
+   "links": [
+    {
+     "type": "line",
+     "id": "line:SNCF:FR:Line::45E281C7-AC50-4A23-9B9F-F73234118E78:"
+    },
+    {
+     "type": "company",
+     "id": "company:SNCF:1187"
+    },
+    {
+     "type": "vehicle_journey",
+     "id": "vehicle_journey:SNCF:2026-10-19:886602:1187:Train"
+    },
+    {
+     "type": "route",
+     "id": "route:SNCF:FR:Line::45E281C7-AC50-4A23-9B9F-F73234118E78:"
+    },
+    {
+     "type": "commercial_mode",
+     "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:"
+    },
+    {
+     "type": "physical_mode",
+     "id": "physical_mode:Train"
+    },
+    {
+     "type": "network",
+     "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:"
+    }
+   ]
+  },
+  {
+   "route": {
+    "id": "route:SNCF:FR:Line::6349C213-7B19-4078-BF2B-43CBECDA9545:",
+    "name": "C18",
+    "is_frequence": "False",
+    "direction_type": "forward",
+    "physical_modes": [
+     {
+      "id": "physical_mode:Coach",
+      "name": "Autocar"
+     },
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités"
+     }
+    ],
+    "direction": {
+     "id": "stop_area:SNCF:87726000",
+     "name": "Saint-Étienne Châteaucreux (Saint-Étienne)",
+     "quality": 0,
+     "stop_area": {
+      "id": "stop_area:SNCF:87726000",
+      "name": "Saint-Étienne Châteaucreux",
+      "codes": [
+       {
+        "type": "source",
+        "value": "87726000"
+       },
+       {
+        "type": "uic",
+        "value": "87726000"
+       }
+      ],
+      "timezone": "Europe/Paris",
+      "label": "Saint-Étienne Châteaucreux (Saint-Étienne)",
+      "coord": {
+       "lon": "4.399722",
+       "lat": "45.443366"
+      },
+      "links": []
+     },
+     "embedded_type": "stop_area"
+    },
+    "links": [],
+    "line": {
+     "id": "line:SNCF:FR:Line::6349C213-7B19-4078-BF2B-43CBECDA9545:",
+     "name": "C18",
+     "code": "C18",
+     "color": "",
+     "text_color": "",
+     "codes": [],
+     "physical_modes": [
+      {
+       "id": "physical_mode:Coach",
+       "name": "Autocar"
+      },
+      {
+       "id": "physical_mode:Train",
+       "name": "TER / Intercités"
+      }
+     ],
+     "commercial_mode": {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     },
+     "network": {
+      "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA",
+      "links": []
+     },
+     "opening_time": "043000",
+     "closing_time": "004500",
+     "links": []
+    }
+   },
+   "stop_point": {
+    "id": "stop_point:SNCF:87723197:Train",
+    "name": "Lyon Part Dieu",
+    "label": "Lyon Part Dieu (Lyon)",
+    "coord": {
+     "lon": "4.859409",
+     "lat": "45.760596"
+    },
+    "links": [],
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités",
+      "co2_emission_rate": {
+       "value": 11.9,
+       "unit": "gEC/Km"
+      }
+     }
+    ],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:69123",
+      "name": "Lyon",
+      "level": 8,
+      "zip_code": "",
+      "label": "Lyon",
+      "insee": "69123",
+      "coord": {
+       "lon": "4.8320114",
+       "lat": "45.7578137"
+      }
+     }
+    ],
+    "stop_area": {
+     "id": "stop_area:SNCF:87723197",
+     "name": "Lyon Part Dieu",
+     "codes": [
+      {
+       "type": "source",
+       "value": "87723197"
+      },
+      {
+       "type": "uic",
+       "value": "87723197"
+      }
+     ],
+     "timezone": "Europe/Paris",
+     "label": "Lyon Part Dieu (Lyon)",
+     "coord": {
+      "lon": "4.859409",
+      "lat": "45.760596"
+     },
+     "links": [],
+     "administrative_regions": [
+      {
+       "id": "admin:fr:69123",
+       "name": "Lyon",
+       "level": 8,
+       "zip_code": "",
+       "label": "Lyon",
+       "insee": "69123",
+       "coord": {
+        "lon": "4.8320114",
+        "lat": "45.7578137"
+       }
+      }
+     ]
+    }
+   },
+   "stop_date_time": {
+    "departure_date_time": "20261019T081200",
+    "base_departure_date_time": "20261019T081200",
+    "arrival_date_time": "20261019T080600",
+    "base_arrival_date_time": "20261019T080600",
+    "additional_informations": [],
+    "links": [
+     {
+      "type": "stop_area",
+      "rel": "origins",
+      "category": "origin",
+      "id": "stop_area:SNCF:87726000",
+      "internal": true
+     },
+     {
+      "type": "stop_area",
+      "rel": "terminus",
+      "category": "terminus",
+      "id": "stop_area:SNCF:87743716",
+      "internal": true
+     }
+    ],
+    "data_freshness": "base_schedule"
+   },
+   "display_informations": {
+    "commercial_mode": "REGIONAURA",
+    "network": "REGIONAURA",
+    "direction": "Ambérieu-en-Bugey (Ambérieu-en-Bugey)",
+    "label": "C18",
+    "color": "",
+    "code": "C18",
+    "headsign": "886809",
+    "name": "C18",
+    "links": [
+     {
+      "templated": false,
+      "rel": "origins",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87726000",
+      "category": "origin"
+     },
+     {
+      "templated": false,
+      "rel": "terminus",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87743716",
+      "category": "terminus"
+     }
+    ],
+    "text_color": "",
+    "trip_short_name": "886809",
+    "company": "SNCF Voyageurs",
+    "description": "",
+    "physical_mode": "TER / Intercités"
+   },
+   "links": [
+    {
+     "type": "line",
+     "id": "line:SNCF:FR:Line::6349C213-7B19-4078-BF2B-43CBECDA9545:"
+    },
+    {
+     "type": "company",
+     "id": "company:SNCF:1187"
+    },
+    {
+     "type": "vehicle_journey",
+     "id": "vehicle_journey:SNCF:2026-10-19:886809:1187:Train"
+    },
+    {
+     "type": "route",
+     "id": "route:SNCF:FR:Line::6349C213-7B19-4078-BF2B-43CBECDA9545:"
+    },
+    {
+     "type": "commercial_mode",
+     "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:"
+    },
+    {
+     "type": "physical_mode",
+     "id": "physical_mode:Train"
+    },
+    {
+     "type": "network",
+     "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:"
+    }
+   ]
+  }
+ ]
+}

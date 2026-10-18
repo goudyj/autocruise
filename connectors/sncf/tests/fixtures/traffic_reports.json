@@ -1,0 +1,222 @@
+{
+ "pagination": {
+  "total_result": 1,
+  "start_page": 0,
+  "items_per_page": 10,
+  "items_on_page": 1
+ },
+ "disruptions": [
+  {
+   "id": "41dacab3-2b8e-429a-bfea-0ace0ae80396",
+   "disruption_id": "41dacab3-2b8e-429a-bfea-0ace0ae80396",
+   "impact_id": "41dacab3-2b8e-429a-bfea-0ace0ae80396",
+   "application_periods": [
+    {
+     "begin": "20261019T073000",
+     "end": "20261019T084400"
+    }
+   ],
+   "status": "future",
+   "updated_at": "20261018T170149",
+   "cause": "",
+   "severity": {
+    "name": "trip canceled",
+    "effect": "NO_SERVICE",
+    "color": "#000000",
+    "priority": 42
+   },
+   "messages": [
+    {
+     "text": "Indisponibilité d'un matériel",
+     "channel": {
+      "content_type": "",
+      "id": "rt",
+      "name": "rt",
+      "types": [
+       "web",
+       "mobile"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "SNCF:2026-10-19:8301:1187:LongDistanceTrain",
+      "name": "SNCF:2026-10-19:8301:1187:LongDistanceTrain",
+      "quality": 0,
+      "trip": {
+       "id": "SNCF:2026-10-19:8301:1187:LongDistanceTrain",
+       "name": "8301"
+      },
+      "embedded_type": "trip"
+     }
+    }
+   ],
+   "uri": "41dacab3-2b8e-429a-bfea-0ace0ae80396",
+   "disruption_uri": "41dacab3-2b8e-429a-bfea-0ace0ae80396",
+   "contributor": "realtime.sncf.piv",
+   "reference": ""
+  },
+  {
+   "id": "95cf3b6e-0769-42fa-b6e3-cb91ddb267e5",
+   "disruption_id": "95cf3b6e-0769-42fa-b6e3-cb91ddb267e5",
+   "impact_id": "95cf3b6e-0769-42fa-b6e3-cb91ddb267e5",
+   "application_periods": [
+    {
+     "begin": "20261019T175600",
+     "end": "20261019T191800"
+    }
+   ],
+   "status": "future",
+   "updated_at": "20261018T170150",
+   "cause": "",
+   "severity": {
+    "name": "trip canceled",
+    "effect": "NO_SERVICE",
+    "color": "#000000",
+    "priority": 42
+   },
+   "messages": [
+    {
+     "text": "Indisponibilité d'un matériel",
+     "channel": {
+      "content_type": "",
+      "id": "rt",
+      "name": "rt",
+      "types": [
+       "web",
+       "mobile"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "SNCF:2026-10-19:8317:1187:LongDistanceTrain",
+      "name": "SNCF:2026-10-19:8317:1187:LongDistanceTrain",
+      "quality": 0,
+      "trip": {
+       "id": "SNCF:2026-10-19:8317:1187:LongDistanceTrain",
+       "name": "8317"
+      },
+      "embedded_type": "trip"
+     }
+    }
+   ],
+   "uri": "95cf3b6e-0769-42fa-b6e3-cb91ddb267e5",
+   "disruption_uri": "95cf3b6e-0769-42fa-b6e3-cb91ddb267e5",
+   "contributor": "realtime.sncf.piv",
+   "reference": ""
+  },
+  {
+   "id": "cbc6fab2-fa6e-4469-b67d-bc0d4ab4e031",
+   "disruption_id": "cbc6fab2-fa6e-4469-b67d-bc0d4ab4e031",
+   "impact_id": "cbc6fab2-fa6e-4469-b67d-bc0d4ab4e031",
+   "application_periods": [
+    {
+     "begin": "20261019T121300",
+     "end": "20261019T133600"
+    }
+   ],
+   "status": "future",
+   "updated_at": "20261018T170150",
+   "cause": "",
+   "severity": {
+    "name": "trip canceled",
+    "effect": "NO_SERVICE",
+    "color": "#000000",
+    "priority": 42
+   },
+   "messages": [
+    {
+     "text": "Indisponibilité d'un matériel",
+     "channel": {
+      "content_type": "",
+      "id": "rt",
+      "name": "rt",
+      "types": [
+       "web",
+       "mobile"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "SNCF:2026-10-19:8314:1187:LongDistanceTrain",
+      "name": "SNCF:2026-10-19:8314:1187:LongDistanceTrain",
+      "quality": 0,
+      "trip": {
+       "id": "SNCF:2026-10-19:8314:1187:LongDistanceTrain",
+       "name": "8314"
+      },
+      "embedded_type": "trip"
+     }
+    }
+   ],
+   "uri": "cbc6fab2-fa6e-4469-b67d-bc0d4ab4e031",
+   "disruption_uri": "cbc6fab2-fa6e-4469-b67d-bc0d4ab4e031",
+   "contributor": "realtime.sncf.piv",
+   "reference": ""
+  }
+ ],
+ "context": {
+  "current_datetime": "20261018T233346",
+  "timezone": "Europe/Paris"
+ },
+ "traffic_reports": [
+  {
+   "network": {
+    "id": "network:SNCF:OUI",
+    "name": "TGV INOUI"
+   },
+   "vehicle_journeys": [
+    {
+     "id": "vehicle_journey:SNCF:2026-10-19:8301:1187:LongDistanceTrain",
+     "name": "8301",
+     "disruptions": [
+      {
+       "templated": false,
+       "rel": "disruptions",
+       "internal": true,
+       "type": "disruption",
+       "id": "41dacab3-2b8e-429a-bfea-0ace0ae80396"
+      }
+     ],
+     "headsign": "8301"
+    },
+    {
+     "id": "vehicle_journey:SNCF:2026-10-19:8314:1187:LongDistanceTrain",
+     "name": "8314",
+     "disruptions": [
+      {
+       "templated": false,
+       "rel": "disruptions",
+       "internal": true,
+       "type": "disruption",
+       "id": "cbc6fab2-fa6e-4469-b67d-bc0d4ab4e031"
+      }
+     ],
+     "headsign": "8314"
+    },
+    {
+     "id": "vehicle_journey:SNCF:2026-10-19:8317:1187:LongDistanceTrain",
+     "name": "8317",
+     "disruptions": [
+      {
+       "templated": false,
+       "rel": "disruptions",
+       "internal": true,
+       "type": "disruption",
+       "id": "95cf3b6e-0769-42fa-b6e3-cb91ddb267e5"
+      }
+     ],
+     "headsign": "8317"
+    }
+   ]
+  }
+ ]
+}

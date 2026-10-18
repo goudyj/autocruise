@@ -1,0 +1,737 @@
+{
+ "pagination": {
+  "total_result": 2198,
+  "start_page": 0,
+  "items_per_page": 3,
+  "items_on_page": 3
+ },
+ "disruptions": [
+  {
+   "id": "5fc6f503-5bed-4fcb-904e-5eb26cbb9b9a",
+   "disruption_id": "5fc6f503-5bed-4fcb-904e-5eb26cbb9b9a",
+   "impact_id": "5fc6f503-5bed-4fcb-904e-5eb26cbb9b9a",
+   "application_periods": [
+    {
+     "begin": "20261017T183500",
+     "end": "20261017T195400"
+    }
+   ],
+   "status": "past",
+   "updated_at": "20261018T084748",
+   "cause": "",
+   "severity": {
+    "name": "trip canceled",
+    "effect": "NO_SERVICE",
+    "color": "#000000",
+    "priority": 42
+   },
+   "messages": [
+    {
+     "text": "Occupation des voies par des manifestants",
+     "channel": {
+      "content_type": "",
+      "id": "rt",
+      "name": "rt",
+      "types": [
+       "web",
+       "mobile"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "SNCF:2026-10-17:858385:1187:LongDistanceTrain",
+      "name": "SNCF:2026-10-17:858385:1187:LongDistanceTrain",
+      "quality": 0,
+      "trip": {
+       "id": "SNCF:2026-10-17:858385:1187:LongDistanceTrain",
+       "name": "858385"
+      },
+      "embedded_type": "trip"
+     }
+    }
+   ],
+   "uri": "5fc6f503-5bed-4fcb-904e-5eb26cbb9b9a",
+   "disruption_uri": "5fc6f503-5bed-4fcb-904e-5eb26cbb9b9a",
+   "contributor": "realtime.sncf.piv",
+   "reference": ""
+  },
+  {
+   "id": "5085eab8-c4ef-4f4f-9ca5-32b629ccbbee",
+   "disruption_id": "5085eab8-c4ef-4f4f-9ca5-32b629ccbbee",
+   "impact_id": "5085eab8-c4ef-4f4f-9ca5-32b629ccbbee",
+   "application_periods": [
+    {
+     "begin": "20261017T141000",
+     "end": "20261017T203600"
+    }
+   ],
+   "status": "past",
+   "updated_at": "20261018T084748",
+   "cause": "",
+   "severity": {
+    "name": "reduced service",
+    "effect": "REDUCED_SERVICE",
+    "color": "#000000",
+    "priority": 42
+   },
+   "messages": [
+    {
+     "text": "Occupation des voies par des manifestants",
+     "channel": {
+      "content_type": "",
+      "id": "rt",
+      "name": "rt",
+      "types": [
+       "web",
+       "mobile"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "SNCF:2026-10-17:4663:1187:LongDistanceTrain",
+      "name": "SNCF:2026-10-17:4663:1187:LongDistanceTrain",
+      "quality": 0,
+      "trip": {
+       "id": "SNCF:2026-10-17:4663:1187:LongDistanceTrain",
+       "name": "4663"
+      },
+      "embedded_type": "trip"
+     },
+     "impacted_stops": [
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87581009:LongDistanceTrain",
+        "name": "Bordeaux Saint-Jean",
+        "label": "Bordeaux Saint-Jean (Bordeaux)",
+        "coord": {
+         "lon": "-0.556697",
+         "lat": "44.825873"
+        },
+        "links": []
+       },
+       "base_arrival_time": "141000",
+       "base_departure_time": "141000",
+       "amended_arrival_time": "141000",
+       "amended_departure_time": "141000",
+       "cause": "",
+       "stop_time_effect": "unchanged",
+       "departure_status": "unchanged",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87586008:LongDistanceTrain",
+        "name": "Agen",
+        "label": "Agen (Agen)",
+        "coord": {
+         "lon": "0.6208669999999999",
+         "lat": "44.207967"
+        },
+        "links": []
+       },
+       "base_arrival_time": "152300",
+       "base_departure_time": "152500",
+       "amended_arrival_time": "152300",
+       "amended_departure_time": "152500",
+       "cause": "",
+       "stop_time_effect": "unchanged",
+       "departure_status": "unchanged",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87611244:LongDistanceTrain",
+        "name": "Montauban Ville Bourbon",
+        "label": "Montauban Ville Bourbon (Montauban)",
+        "coord": {
+         "lon": "1.341499",
+         "lat": "44.01444"
+        },
+        "links": []
+       },
+       "base_arrival_time": "160000",
+       "base_departure_time": "160200",
+       "amended_arrival_time": "160000",
+       "amended_departure_time": "160200",
+       "cause": "",
+       "stop_time_effect": "unchanged",
+       "departure_status": "unchanged",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87611004:LongDistanceTrain",
+        "name": "Toulouse Matabiau",
+        "label": "Toulouse Matabiau (Toulouse)",
+        "coord": {
+         "lon": "1.453616",
+         "lat": "43.611206"
+        },
+        "links": []
+       },
+       "base_arrival_time": "163700",
+       "base_departure_time": "164200",
+       "amended_arrival_time": "163700",
+       "amended_departure_time": "164200",
+       "cause": "",
+       "stop_time_effect": "unchanged",
+       "departure_status": "unchanged",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87615286:LongDistanceTrain",
+        "name": "Carcassonne",
+        "label": "Carcassonne (Carcassonne)",
+        "coord": {
+         "lon": "2.351824",
+         "lat": "43.218029"
+        },
+        "links": []
+       },
+       "base_arrival_time": "172300",
+       "base_departure_time": "172600",
+       "amended_arrival_time": "172300",
+       "amended_departure_time": "172600",
+       "cause": "",
+       "stop_time_effect": "unchanged",
+       "departure_status": "unchanged",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87781104:LongDistanceTrain",
+        "name": "Narbonne",
+        "label": "Narbonne (Narbonne)",
+        "coord": {
+         "lon": "3.005667",
+         "lat": "43.190618"
+        },
+        "links": []
+       },
+       "base_arrival_time": "175800",
+       "base_departure_time": "180100",
+       "amended_arrival_time": "175800",
+       "amended_departure_time": "180100",
+       "cause": "",
+       "stop_time_effect": "unchanged",
+       "departure_status": "unchanged",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87781005:LongDistanceTrain",
+        "name": "Béziers",
+        "label": "Béziers (Béziers)",
+        "coord": {
+         "lon": "3.218895",
+         "lat": "43.336295"
+        },
+        "links": []
+       },
+       "base_arrival_time": "181400",
+       "base_departure_time": "181700",
+       "amended_arrival_time": "181400",
+       "amended_departure_time": "181700",
+       "cause": "",
+       "stop_time_effect": "unchanged",
+       "departure_status": "unchanged",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87773002:LongDistanceTrain",
+        "name": "Montpellier Saint-Roch",
+        "label": "Montpellier Saint-Roch (Montpellier)",
+        "coord": {
+         "lon": "3.880674",
+         "lat": "43.604738"
+        },
+        "links": []
+       },
+       "base_arrival_time": "185400",
+       "base_departure_time": "185800",
+       "amended_arrival_time": "185400",
+       "cause": "Occupation des voies par des manifestants",
+       "stop_time_effect": "deleted",
+       "departure_status": "deleted",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87775007:LongDistanceTrain",
+        "name": "Nîmes Centre",
+        "label": "Nîmes Centre (Nîmes)",
+        "coord": {
+         "lon": "4.365872",
+         "lat": "43.832313"
+        },
+        "links": []
+       },
+       "base_arrival_time": "192300",
+       "base_departure_time": "192600",
+       "cause": "Occupation des voies par des manifestants",
+       "stop_time_effect": "deleted",
+       "departure_status": "deleted",
+       "arrival_status": "deleted",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87751008:LongDistanceTrain",
+        "name": "Marseille Saint-Charles",
+        "label": "Marseille Saint-Charles (Marseille)",
+        "coord": {
+         "lon": "5.380407",
+         "lat": "43.302666"
+        },
+        "links": []
+       },
+       "base_arrival_time": "203600",
+       "base_departure_time": "203600",
+       "amended_departure_time": "203600",
+       "cause": "Occupation des voies par des manifestants",
+       "stop_time_effect": "deleted",
+       "departure_status": "unchanged",
+       "arrival_status": "deleted",
+       "is_detour": false
+      }
+     ]
+    }
+   ],
+   "uri": "5085eab8-c4ef-4f4f-9ca5-32b629ccbbee",
+   "disruption_uri": "5085eab8-c4ef-4f4f-9ca5-32b629ccbbee",
+   "contributor": "realtime.sncf.piv",
+   "reference": ""
+  },
+  {
+   "id": "2c295f1e-8f9d-461a-902a-0524a92020da",
+   "disruption_id": "2c295f1e-8f9d-461a-902a-0524a92020da",
+   "impact_id": "2c295f1e-8f9d-461a-902a-0524a92020da",
+   "application_periods": [
+    {
+     "begin": "20261017T082600",
+     "end": "20261017T112700"
+    }
+   ],
+   "status": "past",
+   "updated_at": "20261018T084748",
+   "cause": "",
+   "severity": {
+    "name": "trip delayed",
+    "effect": "SIGNIFICANT_DELAYS",
+    "color": "#000000",
+    "priority": 42
+   },
+   "messages": [
+    {
+     "text": "Difficulté de gestion du trafic sur le réseau ferré",
+     "channel": {
+      "content_type": "",
+      "id": "rt",
+      "name": "rt",
+      "types": [
+       "web",
+       "mobile"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "SNCF:2026-10-17:865204:1187:Train",
+      "name": "SNCF:2026-10-17:865204:1187:Train",
+      "quality": 0,
+      "trip": {
+       "id": "SNCF:2026-10-17:865204:1187:Train",
+       "name": "865204"
+      },
+      "embedded_type": "trip"
+     },
+     "impacted_stops": [
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87581009:Train",
+        "name": "Bordeaux Saint-Jean",
+        "label": "Bordeaux Saint-Jean (Bordeaux)",
+        "coord": {
+         "lon": "-0.556697",
+         "lat": "44.825873"
+        },
+        "links": []
+       },
+       "base_arrival_time": "082600",
+       "base_departure_time": "082600",
+       "amended_arrival_time": "084600",
+       "amended_departure_time": "084600",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "unchanged",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87581595:Train",
+        "name": "Cenon",
+        "label": "Cenon (Cenon)",
+        "coord": {
+         "lon": "-0.533649",
+         "lat": "44.856347"
+        },
+        "links": []
+       },
+       "base_arrival_time": "083000",
+       "base_departure_time": "083100",
+       "amended_arrival_time": "085000",
+       "amended_departure_time": "085100",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87584052:Train",
+        "name": "Libourne",
+        "label": "Libourne (Libourne)",
+        "coord": {
+         "lon": "-0.236359",
+         "lat": "44.915904"
+        },
+        "links": []
+       },
+       "base_arrival_time": "084900",
+       "base_departure_time": "085000",
+       "amended_arrival_time": "090900",
+       "amended_departure_time": "091000",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87584516:Train",
+        "name": "Coutras",
+        "label": "Coutras (Coutras)",
+        "coord": {
+         "lon": "-0.131361",
+         "lat": "45.036709"
+        },
+        "links": []
+       },
+       "base_arrival_time": "090000",
+       "base_departure_time": "090100",
+       "amended_arrival_time": "092000",
+       "amended_departure_time": "092100",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87584607:Train",
+        "name": "Saint-Médard-de-Guizières",
+        "label": "Saint-Médard-de-Guizières (Saint-Médard-de-Guizières)",
+        "coord": {
+         "lon": "-0.048811",
+         "lat": "45.015558"
+        },
+        "links": []
+       },
+       "base_arrival_time": "090700",
+       "base_departure_time": "090800",
+       "amended_arrival_time": "092700",
+       "amended_departure_time": "092800",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87584615:Train",
+        "name": "Saint-Seurin-sur-l'Isle",
+        "label": "Saint-Seurin-sur-l'Isle (Saint-Seurin-sur-l'Isle)",
+        "coord": {
+         "lon": "-0.001996",
+         "lat": "45.011464"
+        },
+        "links": []
+       },
+       "base_arrival_time": "091100",
+       "base_departure_time": "091200",
+       "amended_arrival_time": "093100",
+       "amended_departure_time": "093200",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87595322:Train",
+        "name": "Montpon-Ménestérol",
+        "label": "Montpon-Ménestérol (Montpon-Ménestérol)",
+        "coord": {
+         "lon": "0.159339",
+         "lat": "45.006338"
+        },
+        "links": []
+       },
+       "base_arrival_time": "092000",
+       "base_departure_time": "092100",
+       "amended_arrival_time": "094000",
+       "amended_departure_time": "094100",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87595298:Train",
+        "name": "Mussidan",
+        "label": "Mussidan (Mussidan)",
+        "coord": {
+         "lon": "0.354068",
+         "lat": "45.034377"
+        },
+        "links": []
+       },
+       "base_arrival_time": "093000",
+       "base_departure_time": "093100",
+       "amended_arrival_time": "095000",
+       "amended_departure_time": "095100",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87595249:Train",
+        "name": "Saint-Astier",
+        "label": "Saint-Astier (Saint-Astier)",
+        "coord": {
+         "lon": "0.522902",
+         "lat": "45.138993"
+        },
+        "links": []
+       },
+       "base_arrival_time": "094100",
+       "base_departure_time": "094200",
+       "amended_arrival_time": "100100",
+       "amended_departure_time": "100200",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87595009:Train",
+        "name": "Périgueux",
+        "label": "Périgueux (Périgueux)",
+        "coord": {
+         "lon": "0.707879",
+         "lat": "45.187408"
+        },
+        "links": []
+       },
+       "base_arrival_time": "095200",
+       "base_departure_time": "095500",
+       "amended_arrival_time": "100700",
+       "amended_departure_time": "101000",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87595579:Train",
+        "name": "Thenon",
+        "label": "Thenon (Thenon)",
+        "coord": {
+         "lon": "1.068646",
+         "lat": "45.16013"
+        },
+        "links": []
+       },
+       "base_arrival_time": "101800",
+       "base_departure_time": "101900",
+       "amended_arrival_time": "103300",
+       "amended_departure_time": "103400",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87594382:Train",
+        "name": "Condat - Le Lardin",
+        "label": "Condat - Le Lardin (Le Lardin-Saint-Lazare)",
+        "coord": {
+         "lon": "1.226727",
+         "lat": "45.126732"
+        },
+        "links": []
+       },
+       "base_arrival_time": "102900",
+       "base_departure_time": "103000",
+       "amended_arrival_time": "104400",
+       "amended_departure_time": "104500",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87594408:Train",
+        "name": "Terrasson",
+        "label": "Terrasson (Terrasson-Lavilledieu)",
+        "coord": {
+         "lon": "1.300501",
+         "lat": "45.135602"
+        },
+        "links": []
+       },
+       "base_arrival_time": "103500",
+       "base_departure_time": "103600",
+       "amended_arrival_time": "105000",
+       "amended_departure_time": "105100",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87594002:Train",
+        "name": "Brive-la-Gaillarde",
+        "label": "Brive-la-Gaillarde (Brive-la-Gaillarde)",
+        "coord": {
+         "lon": "1.528634",
+         "lat": "45.152601"
+        },
+        "links": []
+       },
+       "base_arrival_time": "104900",
+       "base_departure_time": "105200",
+       "amended_arrival_time": "105900",
+       "amended_departure_time": "110200",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87594465:Train",
+        "name": "Aubazine - Saint-Hilaire",
+        "label": "Aubazine - Saint-Hilaire (Saint-Hilaire-Peyroux)",
+        "coord": {
+         "lon": "1.641235",
+         "lat": "45.181678"
+        },
+        "links": []
+       },
+       "base_arrival_time": "110000",
+       "base_departure_time": "110100",
+       "amended_arrival_time": "111000",
+       "amended_departure_time": "111100",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87594481:Train",
+        "name": "Cornil",
+        "label": "Cornil (Cornil)",
+        "coord": {
+         "lon": "1.698189",
+         "lat": "45.21522"
+        },
+        "links": []
+       },
+       "base_arrival_time": "110800",
+       "base_departure_time": "110900",
+       "amended_arrival_time": "111800",
+       "amended_departure_time": "111900",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "delayed",
+       "arrival_status": "delayed",
+       "is_detour": false
+      },
+      {
+       "stop_point": {
+        "id": "stop_point:SNCF:87594499:Train",
+        "name": "Tulle",
+        "label": "Tulle (Tulle)",
+        "coord": {
+         "lon": "1.756445",
+         "lat": "45.258733"
+        },
+        "links": []
+       },
+       "base_arrival_time": "111700",
+       "base_departure_time": "111700",
+       "amended_arrival_time": "112700",
+       "amended_departure_time": "112700",
+       "cause": "Difficulté de gestion du trafic sur le réseau ferré",
+       "stop_time_effect": "delayed",
+       "departure_status": "unchanged",
+       "arrival_status": "delayed",
+       "is_detour": false
+      }
+     ]
+    }
+   ],
+   "uri": "2c295f1e-8f9d-461a-902a-0524a92020da",
+   "disruption_uri": "2c295f1e-8f9d-461a-902a-0524a92020da",
+   "contributor": "realtime.sncf.piv",
+   "reference": ""
+  }
+ ],
+ "context": {
+  "current_datetime": "20261018T233314",
+  "timezone": "Europe/Paris"
+ }
+}

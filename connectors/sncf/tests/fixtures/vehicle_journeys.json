@@ -1,0 +1,101 @@
+{
+ "pagination": {
+  "total_result": 1,
+  "start_page": 0,
+  "items_per_page": 2,
+  "items_on_page": 1
+ },
+ "disruptions": [],
+ "context": {
+  "current_datetime": "20261018T233313",
+  "timezone": "Europe/Paris"
+ },
+ "vehicle_journeys": [
+  {
+   "id": "vehicle_journey:SNCF:2026-10-19:6623:1187:LongDistanceTrain",
+   "name": "6623",
+   "journey_pattern": {
+    "id": "journey_pattern:6572",
+    "name": "journey_pattern:6572"
+   },
+   "stop_times": [
+    {
+     "arrival_time": "170000",
+     "utc_arrival_time": "150000",
+     "departure_time": "170000",
+     "utc_departure_time": "150000",
+     "headsign": "6623",
+     "stop_point": {
+      "id": "stop_point:SNCF:87686006:LongDistanceTrain",
+      "name": "Paris - Gare de Lyon - Hall 1 & 2",
+      "label": "Paris - Gare de Lyon - Hall 1 & 2 (Paris)",
+      "coord": {
+       "lon": "2.373481",
+       "lat": "48.844945"
+      },
+      "links": []
+     },
+     "pickup_allowed": true,
+     "drop_off_allowed": false,
+     "skipped_stop": false
+    },
+    {
+     "arrival_time": "185600",
+     "utc_arrival_time": "165600",
+     "departure_time": "190200",
+     "utc_departure_time": "170200",
+     "headsign": "6623",
+     "stop_point": {
+      "id": "stop_point:SNCF:87723197:LongDistanceTrain",
+      "name": "Lyon Part Dieu",
+      "label": "Lyon Part Dieu (Lyon)",
+      "coord": {
+       "lon": "4.859409",
+       "lat": "45.760596"
+      },
+      "links": []
+     },
+     "pickup_allowed": true,
+     "drop_off_allowed": true,
+     "skipped_stop": false
+    },
+    {
+     "arrival_time": "191000",
+     "utc_arrival_time": "171000",
+     "departure_time": "191000",
+     "utc_departure_time": "171000",
+     "headsign": "6623",
+     "stop_point": {
+      "id": "stop_point:SNCF:87722025:LongDistanceTrain",
+      "name": "Lyon Perrache",
+      "label": "Lyon Perrache (Lyon)",
+      "coord": {
+       "lon": "4.825777",
+       "lat": "45.748508"
+      },
+      "links": []
+     },
+     "pickup_allowed": false,
+     "drop_off_allowed": true,
+     "skipped_stop": false
+    }
+   ],
+   "codes": [
+    {
+     "type": "rt_piv",
+     "value": "2026-10-19:6623:1187:rail:highSpeedRail:FERRE"
+    },
+    {
+     "type": "source",
+     "value": "6ff633962a0625d4335d25e0c199a692"
+    }
+   ],
+   "trip": {
+    "id": "SNCF:2026-10-19:6623:1187:LongDistanceTrain",
+    "name": "6623"
+   },
+   "disruptions": [],
+   "headsign": "6623"
+  }
+ ]
+}

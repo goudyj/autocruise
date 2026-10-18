@@ -1,0 +1,99 @@
+{
+ "pagination": {
+  "total_result": 2,
+  "start_page": 0,
+  "items_per_page": 3,
+  "items_on_page": 2
+ },
+ "disruptions": [],
+ "context": {
+  "current_datetime": "20261018T233308",
+  "timezone": "Europe/Paris"
+ },
+ "places_nearby": [
+  {
+   "id": "stop_area:SNCF:87391003",
+   "name": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+   "quality": 0,
+   "stop_area": {
+    "id": "stop_area:SNCF:87391003",
+    "name": "Paris - Montparnasse - Hall 1 & 2",
+    "codes": [
+     {
+      "type": "source",
+      "value": "87391003"
+     },
+     {
+      "type": "uic",
+      "value": "87391003"
+     }
+    ],
+    "timezone": "Europe/Paris",
+    "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+    "coord": {
+     "lon": "2.320514",
+     "lat": "48.841172"
+    },
+    "links": [],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:75056",
+      "name": "Paris",
+      "level": 8,
+      "zip_code": "75000;75116",
+      "label": "Paris (75000-75116)",
+      "insee": "75056",
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      }
+     }
+    ]
+   },
+   "embedded_type": "stop_area",
+   "distance": "50"
+  },
+  {
+   "id": "stop_area:SNCF:87391102",
+   "name": "Paris Montparnasse Hall 3 Vaugirard (Paris)",
+   "quality": 0,
+   "stop_area": {
+    "id": "stop_area:SNCF:87391102",
+    "name": "Paris Montparnasse Hall 3 Vaugirard",
+    "codes": [
+     {
+      "type": "source",
+      "value": "87391102"
+     },
+     {
+      "type": "uic",
+      "value": "87391102"
+     }
+    ],
+    "timezone": "Europe/Paris",
+    "label": "Paris Montparnasse Hall 3 Vaugirard (Paris)",
+    "coord": {
+     "lon": "2.314741",
+     "lat": "48.837317"
+    },
+    "links": [],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:75056",
+      "name": "Paris",
+      "level": 8,
+      "zip_code": "75000;75116",
+      "label": "Paris (75000-75116)",
+      "insee": "75056",
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      }
+     }
+    ]
+   },
+   "embedded_type": "stop_area",
+   "distance": "640"
+  }
+ ]
+}

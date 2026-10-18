@@ -1,0 +1,982 @@
+{
+ "pagination": {
+  "total_result": 4,
+  "start_page": 0,
+  "items_per_page": 4,
+  "items_on_page": 4
+ },
+ "disruptions": [],
+ "origins": [
+  {
+   "id": "stop_area:SNCF:87391003",
+   "name": "Paris - Montparnasse - Hall 1 & 2",
+   "codes": [
+    {
+     "type": "source",
+     "value": "87391003"
+    },
+    {
+     "type": "uic",
+     "value": "87391003"
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+   "coord": {
+    "lon": "2.320514",
+    "lat": "48.841172"
+   },
+   "links": []
+  }
+ ],
+ "context": {
+  "current_datetime": "20261018T233311",
+  "timezone": "Europe/Paris"
+ },
+ "departures": [
+  {
+   "route": {
+    "id": "route:SNCF:CSR:421500",
+    "name": "Bordeaux Saint-Jean - Paris - Montparnasse - Hall 1 & 2",
+    "is_frequence": "False",
+    "direction_type": "forward",
+    "physical_modes": [
+     {
+      "id": "physical_mode:LongDistanceTrain",
+      "name": "Train grande vitesse"
+     }
+    ],
+    "direction": {
+     "id": "stop_area:SNCF:87391003",
+     "name": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+     "quality": 0,
+     "stop_area": {
+      "id": "stop_area:SNCF:87391003",
+      "name": "Paris - Montparnasse - Hall 1 & 2",
+      "codes": [
+       {
+        "type": "source",
+        "value": "87391003"
+       },
+       {
+        "type": "uic",
+        "value": "87391003"
+       }
+      ],
+      "timezone": "Europe/Paris",
+      "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+      "coord": {
+       "lon": "2.320514",
+       "lat": "48.841172"
+      },
+      "links": []
+     },
+     "embedded_type": "stop_area"
+    },
+    "links": [],
+    "line": {
+     "id": "line:SNCF:CSR:421500",
+     "name": "Bordeaux Saint-Jean - Paris - Montparnasse - Hall 1 & 2",
+     "code": "",
+     "color": "",
+     "text_color": "",
+     "codes": [],
+     "physical_modes": [
+      {
+       "id": "physical_mode:LongDistanceTrain",
+       "name": "Train grande vitesse"
+      }
+     ],
+     "commercial_mode": {
+      "id": "commercial_mode:OUI",
+      "name": "TGV INOUI"
+     },
+     "network": {
+      "id": "network:SNCF:OUI",
+      "name": "TGV INOUI",
+      "links": []
+     },
+     "opening_time": "052700",
+     "closing_time": "231200",
+     "links": []
+    }
+   },
+   "stop_point": {
+    "id": "stop_point:SNCF:87391003:LongDistanceTrain",
+    "name": "Paris - Montparnasse - Hall 1 & 2",
+    "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+    "coord": {
+     "lon": "2.320514",
+     "lat": "48.841172"
+    },
+    "links": [],
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:FR:Branding::aa13f2f4-e717-4f8d-87ed-dce20a8c10cb:",
+      "name": "NOMAD RÉSA"
+     },
+     {
+      "id": "commercial_mode:FR:Branding::d5d601cf-e383-4138-8e70-ee1b7fcadd48:",
+      "name": "Rémi"
+     },
+     {
+      "id": "commercial_mode:FR:Branding::e6a26019-486f-48d6-bb07-c24cae7fc307:",
+      "name": "Aléop"
+     },
+     {
+      "id": "commercial_mode:OUI",
+      "name": "TGV INOUI"
+     },
+     {
+      "id": "commercial_mode:TGVOUIGO",
+      "name": "OUIGO"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:LongDistanceTrain",
+      "name": "Train grande vitesse",
+      "co2_emission_rate": {
+       "value": 2.36,
+       "unit": "gEC/Km"
+      }
+     }
+    ],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:75056",
+      "name": "Paris",
+      "level": 8,
+      "zip_code": "75000;75116",
+      "label": "Paris (75000-75116)",
+      "insee": "75056",
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      }
+     }
+    ],
+    "stop_area": {
+     "id": "stop_area:SNCF:87391003",
+     "name": "Paris - Montparnasse - Hall 1 & 2",
+     "codes": [
+      {
+       "type": "source",
+       "value": "87391003"
+      },
+      {
+       "type": "uic",
+       "value": "87391003"
+      }
+     ],
+     "timezone": "Europe/Paris",
+     "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+     "coord": {
+      "lon": "2.320514",
+      "lat": "48.841172"
+     },
+     "links": [],
+     "administrative_regions": [
+      {
+       "id": "admin:fr:75056",
+       "name": "Paris",
+       "level": 8,
+       "zip_code": "75000;75116",
+       "label": "Paris (75000-75116)",
+       "insee": "75056",
+       "coord": {
+        "lon": "2.3483915",
+        "lat": "48.8534951"
+       }
+      }
+     ]
+    }
+   },
+   "stop_date_time": {
+    "departure_date_time": "20261019T080100",
+    "base_departure_date_time": "20261019T080100",
+    "arrival_date_time": "20261019T080100",
+    "base_arrival_date_time": "20261019T080100",
+    "additional_informations": [],
+    "links": [
+     {
+      "type": "stop_area",
+      "rel": "origins",
+      "category": "origin",
+      "id": "stop_area:SNCF:87391003",
+      "internal": true
+     },
+     {
+      "type": "stop_area",
+      "rel": "terminus",
+      "category": "terminus",
+      "id": "stop_area:SNCF:87581009",
+      "internal": true
+     }
+    ],
+    "data_freshness": "base_schedule"
+   },
+   "display_informations": {
+    "commercial_mode": "TGV INOUI",
+    "network": "TGV INOUI",
+    "direction": "Bordeaux Saint-Jean (Bordeaux)",
+    "label": "Bordeaux Saint-Jean - Paris - Montparnasse - Hall 1 & 2",
+    "color": "",
+    "code": "",
+    "headsign": "8423",
+    "name": "Bordeaux Saint-Jean - Paris - Montparnasse - Hall 1 & 2",
+    "links": [
+     {
+      "templated": false,
+      "rel": "origins",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87391003",
+      "category": "origin"
+     },
+     {
+      "templated": false,
+      "rel": "terminus",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87581009",
+      "category": "terminus"
+     }
+    ],
+    "text_color": "",
+    "trip_short_name": "8423",
+    "company": "SNCF Voyageurs",
+    "description": "",
+    "physical_mode": "Train grande vitesse"
+   },
+   "links": [
+    {
+     "type": "line",
+     "id": "line:SNCF:CSR:421500"
+    },
+    {
+     "type": "company",
+     "id": "company:SNCF:1187"
+    },
+    {
+     "type": "vehicle_journey",
+     "id": "vehicle_journey:SNCF:2026-10-19:8423:1187:LongDistanceTrain"
+    },
+    {
+     "type": "route",
+     "id": "route:SNCF:CSR:421500"
+    },
+    {
+     "type": "commercial_mode",
+     "id": "commercial_mode:OUI"
+    },
+    {
+     "type": "physical_mode",
+     "id": "physical_mode:LongDistanceTrain"
+    },
+    {
+     "type": "network",
+     "id": "network:SNCF:OUI"
+    }
+   ]
+  },
+  {
+   "route": {
+    "id": "route:SNCF:FR:Line::F7BB4338-AE0A-457B-A5D3-F1F80F115201:",
+    "name": "C3",
+    "is_frequence": "False",
+    "direction_type": "forward",
+    "physical_modes": [
+     {
+      "id": "physical_mode:Coach",
+      "name": "Autocar"
+     },
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités"
+     }
+    ],
+    "direction": {
+     "id": "stop_area:SNCF:87394007",
+     "name": "Chartres (Chartres)",
+     "quality": 0,
+     "stop_area": {
+      "id": "stop_area:SNCF:87394007",
+      "name": "Chartres",
+      "codes": [
+       {
+        "type": "source",
+        "value": "87394007"
+       },
+       {
+        "type": "uic",
+        "value": "87394007"
+       }
+      ],
+      "timezone": "Europe/Paris",
+      "label": "Chartres (Chartres)",
+      "coord": {
+       "lon": "1.481313",
+       "lat": "48.448202"
+      },
+      "links": []
+     },
+     "embedded_type": "stop_area"
+    },
+    "links": [],
+    "line": {
+     "id": "line:SNCF:FR:Line::F7BB4338-AE0A-457B-A5D3-F1F80F115201:",
+     "name": "C3",
+     "code": "C3",
+     "color": "",
+     "text_color": "",
+     "codes": [],
+     "physical_modes": [
+      {
+       "id": "physical_mode:Train",
+       "name": "TER / Intercités"
+      },
+      {
+       "id": "physical_mode:Coach",
+       "name": "Autocar"
+      }
+     ],
+     "commercial_mode": {
+      "id": "commercial_mode:FR:Branding::d5d601cf-e383-4138-8e70-ee1b7fcadd48:",
+      "name": "Rémi"
+     },
+     "network": {
+      "id": "network:SNCF:FR:Branding::d5d601cf-e383-4138-8e70-ee1b7fcadd48:",
+      "name": "Rémi",
+      "links": []
+     },
+     "opening_time": "040600",
+     "closing_time": "012400",
+     "links": []
+    }
+   },
+   "stop_point": {
+    "id": "stop_point:SNCF:87391003:Train",
+    "name": "Paris - Montparnasse - Hall 1 & 2",
+    "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+    "coord": {
+     "lon": "2.320514",
+     "lat": "48.841172"
+    },
+    "links": [],
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:FR:Branding::d5d601cf-e383-4138-8e70-ee1b7fcadd48:",
+      "name": "Rémi"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités",
+      "co2_emission_rate": {
+       "value": 11.9,
+       "unit": "gEC/Km"
+      }
+     }
+    ],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:75056",
+      "name": "Paris",
+      "level": 8,
+      "zip_code": "75000;75116",
+      "label": "Paris (75000-75116)",
+      "insee": "75056",
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      }
+     }
+    ],
+    "stop_area": {
+     "id": "stop_area:SNCF:87391003",
+     "name": "Paris - Montparnasse - Hall 1 & 2",
+     "codes": [
+      {
+       "type": "source",
+       "value": "87391003"
+      },
+      {
+       "type": "uic",
+       "value": "87391003"
+      }
+     ],
+     "timezone": "Europe/Paris",
+     "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+     "coord": {
+      "lon": "2.320514",
+      "lat": "48.841172"
+     },
+     "links": [],
+     "administrative_regions": [
+      {
+       "id": "admin:fr:75056",
+       "name": "Paris",
+       "level": 8,
+       "zip_code": "75000;75116",
+       "label": "Paris (75000-75116)",
+       "insee": "75056",
+       "coord": {
+        "lon": "2.3483915",
+        "lat": "48.8534951"
+       }
+      }
+     ]
+    }
+   },
+   "stop_date_time": {
+    "departure_date_time": "20261019T080400",
+    "base_departure_date_time": "20261019T080400",
+    "arrival_date_time": "20261019T080400",
+    "base_arrival_date_time": "20261019T080400",
+    "additional_informations": [],
+    "links": [
+     {
+      "type": "stop_area",
+      "rel": "origins",
+      "category": "origin",
+      "id": "stop_area:SNCF:87391003",
+      "internal": true
+     },
+     {
+      "type": "stop_area",
+      "rel": "terminus",
+      "category": "terminus",
+      "id": "stop_area:SNCF:87394007",
+      "internal": true
+     }
+    ],
+    "data_freshness": "base_schedule"
+   },
+   "display_informations": {
+    "commercial_mode": "Rémi",
+    "network": "Rémi",
+    "direction": "Chartres (Chartres)",
+    "label": "C3",
+    "color": "",
+    "code": "C3",
+    "headsign": "862411",
+    "name": "C3",
+    "links": [
+     {
+      "templated": false,
+      "rel": "origins",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87391003",
+      "category": "origin"
+     },
+     {
+      "templated": false,
+      "rel": "terminus",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87394007",
+      "category": "terminus"
+     }
+    ],
+    "text_color": "",
+    "trip_short_name": "862411",
+    "company": "SNCF Voyageurs",
+    "description": "",
+    "physical_mode": "TER / Intercités"
+   },
+   "links": [
+    {
+     "type": "line",
+     "id": "line:SNCF:FR:Line::F7BB4338-AE0A-457B-A5D3-F1F80F115201:"
+    },
+    {
+     "type": "company",
+     "id": "company:SNCF:1187"
+    },
+    {
+     "type": "vehicle_journey",
+     "id": "vehicle_journey:SNCF:2026-10-19:862411:1187:Train"
+    },
+    {
+     "type": "route",
+     "id": "route:SNCF:FR:Line::F7BB4338-AE0A-457B-A5D3-F1F80F115201:"
+    },
+    {
+     "type": "commercial_mode",
+     "id": "commercial_mode:FR:Branding::d5d601cf-e383-4138-8e70-ee1b7fcadd48:"
+    },
+    {
+     "type": "physical_mode",
+     "id": "physical_mode:Train"
+    },
+    {
+     "type": "network",
+     "id": "network:SNCF:FR:Branding::d5d601cf-e383-4138-8e70-ee1b7fcadd48:"
+    }
+   ]
+  },
+  {
+   "route": {
+    "id": "route:SNCF:N",
+    "name": "N",
+    "is_frequence": "False",
+    "direction_type": "forward",
+    "physical_modes": [
+     {
+      "id": "physical_mode:RapidTransit",
+      "name": "RER / Transilien"
+     }
+    ],
+    "direction": {
+     "id": "stop_area:SNCF:87391003",
+     "name": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+     "quality": 0,
+     "stop_area": {
+      "id": "stop_area:SNCF:87391003",
+      "name": "Paris - Montparnasse - Hall 1 & 2",
+      "codes": [
+       {
+        "type": "source",
+        "value": "87391003"
+       },
+       {
+        "type": "uic",
+        "value": "87391003"
+       }
+      ],
+      "timezone": "Europe/Paris",
+      "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+      "coord": {
+       "lon": "2.320514",
+       "lat": "48.841172"
+      },
+      "links": []
+     },
+     "embedded_type": "stop_area"
+    },
+    "links": [],
+    "line": {
+     "id": "line:SNCF:N",
+     "name": "N",
+     "code": "N",
+     "color": "00A092",
+     "text_color": "FFFFFF",
+     "codes": [],
+     "physical_modes": [
+      {
+       "id": "physical_mode:RapidTransit",
+       "name": "RER / Transilien"
+      }
+     ],
+     "commercial_mode": {
+      "id": "commercial_mode:TN",
+      "name": "TRANSILIEN"
+     },
+     "network": {
+      "id": "network:SNCF:TN",
+      "name": "TRANSILIEN",
+      "links": []
+     },
+     "opening_time": "043700",
+     "closing_time": "013800",
+     "links": []
+    }
+   },
+   "stop_point": {
+    "id": "stop_point:SNCF:87391003:RapidTransit",
+    "name": "Paris - Montparnasse - Hall 1 & 2",
+    "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+    "coord": {
+     "lon": "2.320514",
+     "lat": "48.841172"
+    },
+    "links": [],
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:TN",
+      "name": "TRANSILIEN"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:RapidTransit",
+      "name": "RER / Transilien",
+      "co2_emission_rate": {
+       "value": 7.28,
+       "unit": "gEC/Km"
+      }
+     }
+    ],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:75056",
+      "name": "Paris",
+      "level": 8,
+      "zip_code": "75000;75116",
+      "label": "Paris (75000-75116)",
+      "insee": "75056",
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      }
+     }
+    ],
+    "stop_area": {
+     "id": "stop_area:SNCF:87391003",
+     "name": "Paris - Montparnasse - Hall 1 & 2",
+     "codes": [
+      {
+       "type": "source",
+       "value": "87391003"
+      },
+      {
+       "type": "uic",
+       "value": "87391003"
+      }
+     ],
+     "timezone": "Europe/Paris",
+     "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+     "coord": {
+      "lon": "2.320514",
+      "lat": "48.841172"
+     },
+     "links": [],
+     "administrative_regions": [
+      {
+       "id": "admin:fr:75056",
+       "name": "Paris",
+       "level": 8,
+       "zip_code": "75000;75116",
+       "label": "Paris (75000-75116)",
+       "insee": "75056",
+       "coord": {
+        "lon": "2.3483915",
+        "lat": "48.8534951"
+       }
+      }
+     ]
+    }
+   },
+   "stop_date_time": {
+    "departure_date_time": "20261019T080500",
+    "base_departure_date_time": "20261019T080500",
+    "arrival_date_time": "20261019T080500",
+    "base_arrival_date_time": "20261019T080500",
+    "additional_informations": [],
+    "links": [
+     {
+      "type": "stop_area",
+      "rel": "origins",
+      "category": "origin",
+      "id": "stop_area:SNCF:87391003",
+      "internal": true
+     },
+     {
+      "type": "stop_area",
+      "rel": "terminus",
+      "category": "terminus",
+      "id": "stop_area:SNCF:87393421",
+      "internal": true
+     }
+    ],
+    "data_freshness": "base_schedule"
+   },
+   "display_informations": {
+    "commercial_mode": "TRANSILIEN",
+    "network": "TRANSILIEN",
+    "direction": "Plaisir - Grignon (Plaisir)",
+    "label": "N",
+    "color": "00A092",
+    "code": "N",
+    "headsign": "GOPI",
+    "name": "N",
+    "links": [
+     {
+      "templated": false,
+      "rel": "origins",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87391003",
+      "category": "origin"
+     },
+     {
+      "templated": false,
+      "rel": "terminus",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87393421",
+      "category": "terminus"
+     }
+    ],
+    "text_color": "FFFFFF",
+    "trip_short_name": "164565",
+    "company": "SNCF Voyageurs",
+    "description": "",
+    "physical_mode": "RER / Transilien"
+   },
+   "links": [
+    {
+     "type": "line",
+     "id": "line:SNCF:N"
+    },
+    {
+     "type": "company",
+     "id": "company:SNCF:1187"
+    },
+    {
+     "type": "vehicle_journey",
+     "id": "vehicle_journey:SNCF:2026-10-19:164565:1187:RapidTransit"
+    },
+    {
+     "type": "route",
+     "id": "route:SNCF:N"
+    },
+    {
+     "type": "commercial_mode",
+     "id": "commercial_mode:TN"
+    },
+    {
+     "type": "physical_mode",
+     "id": "physical_mode:RapidTransit"
+    },
+    {
+     "type": "network",
+     "id": "network:SNCF:TN"
+    }
+   ]
+  },
+  {
+   "route": {
+    "id": "route:SNCF:N",
+    "name": "N",
+    "is_frequence": "False",
+    "direction_type": "forward",
+    "physical_modes": [
+     {
+      "id": "physical_mode:RapidTransit",
+      "name": "RER / Transilien"
+     }
+    ],
+    "direction": {
+     "id": "stop_area:SNCF:87391003",
+     "name": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+     "quality": 0,
+     "stop_area": {
+      "id": "stop_area:SNCF:87391003",
+      "name": "Paris - Montparnasse - Hall 1 & 2",
+      "codes": [
+       {
+        "type": "source",
+        "value": "87391003"
+       },
+       {
+        "type": "uic",
+        "value": "87391003"
+       }
+      ],
+      "timezone": "Europe/Paris",
+      "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+      "coord": {
+       "lon": "2.320514",
+       "lat": "48.841172"
+      },
+      "links": []
+     },
+     "embedded_type": "stop_area"
+    },
+    "links": [],
+    "line": {
+     "id": "line:SNCF:N",
+     "name": "N",
+     "code": "N",
+     "color": "00A092",
+     "text_color": "FFFFFF",
+     "codes": [],
+     "physical_modes": [
+      {
+       "id": "physical_mode:RapidTransit",
+       "name": "RER / Transilien"
+      }
+     ],
+     "commercial_mode": {
+      "id": "commercial_mode:TN",
+      "name": "TRANSILIEN"
+     },
+     "network": {
+      "id": "network:SNCF:TN",
+      "name": "TRANSILIEN",
+      "links": []
+     },
+     "opening_time": "043700",
+     "closing_time": "013800",
+     "links": []
+    }
+   },
+   "stop_point": {
+    "id": "stop_point:SNCF:87391003:RapidTransit",
+    "name": "Paris - Montparnasse - Hall 1 & 2",
+    "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+    "coord": {
+     "lon": "2.320514",
+     "lat": "48.841172"
+    },
+    "links": [],
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:TN",
+      "name": "TRANSILIEN"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:RapidTransit",
+      "name": "RER / Transilien",
+      "co2_emission_rate": {
+       "value": 7.28,
+       "unit": "gEC/Km"
+      }
+     }
+    ],
+    "administrative_regions": [
+     {
+      "id": "admin:fr:75056",
+      "name": "Paris",
+      "level": 8,
+      "zip_code": "75000;75116",
+      "label": "Paris (75000-75116)",
+      "insee": "75056",
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      }
+     }
+    ],
+    "stop_area": {
+     "id": "stop_area:SNCF:87391003",
+     "name": "Paris - Montparnasse - Hall 1 & 2",
+     "codes": [
+      {
+       "type": "source",
+       "value": "87391003"
+      },
+      {
+       "type": "uic",
+       "value": "87391003"
+      }
+     ],
+     "timezone": "Europe/Paris",
+     "label": "Paris - Montparnasse - Hall 1 & 2 (Paris)",
+     "coord": {
+      "lon": "2.320514",
+      "lat": "48.841172"
+     },
+     "links": [],
+     "administrative_regions": [
+      {
+       "id": "admin:fr:75056",
+       "name": "Paris",
+       "level": 8,
+       "zip_code": "75000;75116",
+       "label": "Paris (75000-75116)",
+       "insee": "75056",
+       "coord": {
+        "lon": "2.3483915",
+        "lat": "48.8534951"
+       }
+      }
+     ]
+    }
+   },
+   "stop_date_time": {
+    "departure_date_time": "20261019T082000",
+    "base_departure_date_time": "20261019T082000",
+    "arrival_date_time": "20261019T082000",
+    "base_arrival_date_time": "20261019T082000",
+    "additional_informations": [],
+    "links": [
+     {
+      "type": "stop_area",
+      "rel": "origins",
+      "category": "origin",
+      "id": "stop_area:SNCF:87391003",
+      "internal": true
+     },
+     {
+      "type": "stop_area",
+      "rel": "terminus",
+      "category": "terminus",
+      "id": "stop_area:SNCF:87393314",
+      "internal": true
+     }
+    ],
+    "data_freshness": "base_schedule"
+   },
+   "display_informations": {
+    "commercial_mode": "TRANSILIEN",
+    "network": "TRANSILIEN",
+    "direction": "Rambouillet (Rambouillet)",
+    "label": "N",
+    "color": "00A092",
+    "code": "N",
+    "headsign": "ROPO",
+    "name": "N",
+    "links": [
+     {
+      "templated": false,
+      "rel": "origins",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87391003",
+      "category": "origin"
+     },
+     {
+      "templated": false,
+      "rel": "terminus",
+      "internal": true,
+      "type": "stop_area",
+      "id": "stop_area:SNCF:87393314",
+      "category": "terminus"
+     }
+    ],
+    "text_color": "FFFFFF",
+    "trip_short_name": "164467",
+    "company": "SNCF Voyageurs",
+    "description": "",
+    "physical_mode": "RER / Transilien"
+   },
+   "links": [
+    {
+     "type": "line",
+     "id": "line:SNCF:N"
+    },
+    {
+     "type": "company",
+     "id": "company:SNCF:1187"
+    },
+    {
+     "type": "vehicle_journey",
+     "id": "vehicle_journey:SNCF:2026-10-19:164467:1187:RapidTransit"
+    },
+    {
+     "type": "route",
+     "id": "route:SNCF:N"
+    },
+    {
+     "type": "commercial_mode",
+     "id": "commercial_mode:TN"
+    },
+    {
+     "type": "physical_mode",
+     "id": "physical_mode:RapidTransit"
+    },
+    {
+     "type": "network",
+     "id": "network:SNCF:TN"
+    }
+   ]
+  }
+ ]
+}

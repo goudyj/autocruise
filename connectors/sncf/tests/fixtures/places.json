@@ -1,0 +1,1361 @@
+{
+ "places": [
+  {
+   "id": "stop_area:SNCF:87723197",
+   "name": "Lyon Part Dieu (Lyon)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:SNCF:87723197",
+    "coord": {
+     "lat": "45.76059597",
+     "lon": "4.85940903"
+    },
+    "label": "Lyon Part Dieu (Lyon)",
+    "name": "Lyon Part Dieu",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:69123",
+      "insee": "69123",
+      "name": "Lyon",
+      "label": "Lyon",
+      "level": 8,
+      "coord": {
+       "lon": "4.8320114",
+       "lat": "45.7578137"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+      "name": "MOBIGO"
+     },
+     {
+      "id": "commercial_mode:IC",
+      "name": "Intercités"
+     },
+     {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     },
+     {
+      "id": "commercial_mode:OUI",
+      "name": "TGV INOUI"
+     },
+     {
+      "id": "commercial_mode:TGVOUIGO",
+      "name": "OUIGO"
+     },
+     {
+      "id": "commercial_mode:LYR",
+      "name": "TGV Lyria"
+     },
+     {
+      "id": "commercial_mode:DBS",
+      "name": "DB SNCF"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:LongDistanceTrain",
+      "name": "Train grande vitesse"
+     },
+     {
+      "id": "physical_mode:Train",
+      "name": "TER / Intercités"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "87723197"
+     },
+     {
+      "type": "uic",
+      "value": "87723197"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:SNCF:FR:Line::45E281C7-AC50-4A23-9B9F-F73234118E78:",
+      "name": "C12",
+      "code": "C12",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::D9E3C2B3-FD86-4C45-9998-2922E320C3A2:",
+      "name": "C15",
+      "code": "C15",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::6349C213-7B19-4078-BF2B-43CBECDA9545:",
+      "name": "C18",
+      "code": "C18",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::BE0A8D1F-C84D-4D75-87C8-D89DF19D1D40:",
+      "name": "C23",
+      "code": "C23",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::B6EA9961-71EE-4D2E-9A72-345763D83770:",
+      "name": "K1+",
+      "code": "K1+",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::D79097CD-B3F9-4C30-8676-74078751808C:",
+      "name": "K2",
+      "code": "K2",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::872509D5-9DC9-4F24-8BB0-3716CA6C6F27:",
+      "name": "K3",
+      "code": "K3",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::5CE372B6-CE7D-4780-B4F8-F5979FED5405:",
+      "name": "K4",
+      "code": "K4",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::D02BC35E-F58E-45E7-968F-42B8AB630E6E:",
+      "name": "K6",
+      "code": "K6",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::B10C45A0-C32C-4232-85F2-4BB81B810084:",
+      "name": "K7",
+      "code": "K7",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::27A3C9CC-526E-4121-8CF9-7C00D4652BCC:",
+      "name": "K13",
+      "code": "K13",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::C333995A-51A2-4A1C-ABC7-55A7460AB17B:",
+      "name": "K14",
+      "code": "K14",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::2993074B-2B66-490B-B4C2-5593D87237FB:",
+      "name": "K16",
+      "code": "K16",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::6F1D7ABC-B729-498A-B3BD-DE55587C60E2:",
+      "name": "K23",
+      "code": "K23",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::caef5104-9fa8-453f-92ae-6d9b4c3b5df4:",
+      "name": "K33",
+      "code": "K33",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::fa2002df-4eab-4035-87a0-4c030f916558:",
+      "name": "K54",
+      "code": "K54",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::d1bc94ff-90a2-45c6-9617-258fb5f8f54a:",
+      "name": "K64",
+      "code": "K64",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::9E8A0A7B-FC96-452D-B101-08ACAC5E1547:",
+      "name": "P2",
+      "code": "P2",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::9F274BE1-3158-4AD4-9B2F-5D1AC4DBCE72:",
+      "name": "P2",
+      "code": "P2",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::AA458197-5792-4FC6-A6CA-4B6EA3876108:",
+      "name": "P33",
+      "code": "P33",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::fa03c60c-432a-4c27-b646-e231f19253c6:",
+       "name": "MOBIGO"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:671100",
+      "name": "Frankfurt am Main Hbf - Marseille Saint-Charles",
+      "commercial_mode": {
+       "id": "commercial_mode:DBS",
+       "name": "DB SNCF"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:DBS",
+       "name": "DB SNCF"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:081300",
+      "name": "Le Havre - Marseille Saint-Charles",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:001100",
+      "name": "Lille Europe - Montpellier Sud de France",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:533100",
+      "name": "Lille Flandres - Lyon Perrache",
+      "commercial_mode": {
+       "id": "commercial_mode:TGVOUIGO",
+       "name": "OUIGO"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:TGVOUIGO",
+       "name": "OUIGO"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:041700",
+      "name": "Lyon Part Dieu - Toulouse Matabiau",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:1187-87722025-87142125",
+      "name": "Lyon Perrache - Culmont - Chalindrey",
+      "commercial_mode": {
+       "id": "commercial_mode:IC",
+       "name": "Intercités"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:IC",
+       "name": "Intercités"
+      }
+     },
+     {
+      "id": "line:SNCF:1187-87722025-87141002",
+      "name": "Lyon Perrache - Nancy",
+      "commercial_mode": {
+       "id": "commercial_mode:IC",
+       "name": "Intercités"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:IC",
+       "name": "Intercités"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:633400",
+      "name": "Lyon Perrache - Paris - Gare de Lyon - Hall 1 & 2",
+      "commercial_mode": {
+       "id": "commercial_mode:TGVOUIGO",
+       "name": "OUIGO"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:TGVOUIGO",
+       "name": "OUIGO"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:632100",
+      "name": "Marseille Saint-Charles - Lausanne",
+      "commercial_mode": {
+       "id": "commercial_mode:LYR",
+       "name": "TGV Lyria"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:LYR",
+       "name": "TGV Lyria"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:041600",
+      "name": "Marseille Saint-Charles - Lyon Part Dieu",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:001200",
+      "name": "Montpellier Sud de France - Lille Europe",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:633600",
+      "name": "Montpellier Sud de France - Lyon Part Dieu",
+      "commercial_mode": {
+       "id": "commercial_mode:TGVOUIGO",
+       "name": "OUIGO"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:TGVOUIGO",
+       "name": "OUIGO"
+      }
+     },
+     {
+      "id": "line:SNCF:1187-87141002-87722025",
+      "name": "Nancy - Lyon Perrache",
+      "commercial_mode": {
+       "id": "commercial_mode:IC",
+       "name": "Intercités"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:IC",
+       "name": "Intercités"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:121100",
+      "name": "Nantes - Lyon Perrache",
+      "commercial_mode": {
+       "id": "commercial_mode:IC",
+       "name": "Intercités"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:IC",
+       "name": "Intercités"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:081200",
+      "name": "Nantes - Montpellier Sud de France",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:071100",
+      "name": "Nice - Strasbourg",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:601100",
+      "name": "Paris - Gare de Lyon - Hall 1 & 2 - Lyon Perrache",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:601200",
+      "name": "Paris - Gare de Lyon - Hall 1 & 2 - Lyon Perrache",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:081100",
+      "name": "Rennes - Marseille Saint-Charles",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     },
+     {
+      "id": "line:SNCF:CSR:071200",
+      "name": "Strasbourg - Montpellier Saint-Roch",
+      "commercial_mode": {
+       "id": "commercial_mode:OUI",
+       "name": "TGV INOUI"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:OUI",
+       "name": "TGV INOUI"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:SNCF:87697128",
+   "name": "Lyon-Part-Dieu - Gare Routière (Lyon)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:SNCF:87697128",
+    "coord": {
+     "lat": "45.76106379",
+     "lon": "4.86298442"
+    },
+    "label": "Lyon-Part-Dieu - Gare Routière (Lyon)",
+    "name": "Lyon-Part-Dieu - Gare Routière",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:69123",
+      "insee": "69123",
+      "name": "Lyon",
+      "label": "Lyon",
+      "level": 8,
+      "coord": {
+       "lon": "4.8320114",
+       "lat": "45.7578137"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+      "name": "REGIONAURA"
+     },
+     {
+      "id": "commercial_mode:TER",
+      "name": "TER"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Coach",
+      "name": "Autocar"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "87697128"
+     },
+     {
+      "type": "uic",
+      "value": "87697128"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:SNCF:FR:Line::45E281C7-AC50-4A23-9B9F-F73234118E78:",
+      "name": "C12",
+      "code": "C12",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::D9E3C2B3-FD86-4C45-9998-2922E320C3A2:",
+      "name": "C15",
+      "code": "C15",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::6349C213-7B19-4078-BF2B-43CBECDA9545:",
+      "name": "C18",
+      "code": "C18",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::BE0A8D1F-C84D-4D75-87C8-D89DF19D1D40:",
+      "name": "C23",
+      "code": "C23",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::84762773-6B8B-4442-9CC3-2B637DB175D6:",
+      "name": "C24",
+      "code": "C24",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::421CAAD2-E505-425C-81AA-9E984B306F7D:",
+      "name": "C28",
+      "code": "C28",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::9a389d3e-5e46-456a-bb0c-d67842aae6ac:",
+      "name": "E04",
+      "code": "E04",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::9774036f-ddc4-48c1-a390-fb77383c5e3c:",
+      "name": "E15",
+      "code": "E15",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::872509D5-9DC9-4F24-8BB0-3716CA6C6F27:",
+      "name": "K3",
+      "code": "K3",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::5CE372B6-CE7D-4780-B4F8-F5979FED5405:",
+      "name": "K4",
+      "code": "K4",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::D02BC35E-F58E-45E7-968F-42B8AB630E6E:",
+      "name": "K6",
+      "code": "K6",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::75A25C0E-5A8F-4BBE-8146-14F1853815B1:",
+      "name": "K7",
+      "code": "K7",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::C333995A-51A2-4A1C-ABC7-55A7460AB17B:",
+      "name": "K14",
+      "code": "K14",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::6F1D7ABC-B729-498A-B3BD-DE55587C60E2:",
+      "name": "K23",
+      "code": "K23",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::fa2002df-4eab-4035-87a0-4c030f916558:",
+      "name": "K54",
+      "code": "K54",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:LongDistanceTrain",
+        "name": "Train grande vitesse"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::066313D8-0983-4B8F-8339-20A3BF96D614:",
+      "name": "P28",
+      "code": "P28",
+      "commercial_mode": {
+       "id": "commercial_mode:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Train",
+        "name": "TER / Intercités"
+       },
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:FR:Branding::f4fa116c-2d6a-4696-b6c9-47195206d6f4:",
+       "name": "REGIONAURA"
+      }
+     },
+     {
+      "id": "line:SNCF:FR:Line::7e3afdb2-fbb0-41f0-8aae-2c10d44fe79f:",
+      "name": "A03",
+      "code": "X75",
+      "commercial_mode": {
+       "id": "commercial_mode:TER",
+       "name": "TER"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:TER",
+       "name": "TER"
+      }
+     },
+     {
+      "id": "line:SNCF:1187-87697128-87698662",
+      "name": "Lyon-Part-Dieu - Gare Routière - Saint-Etienne-Châteaucreux Gare Routière",
+      "commercial_mode": {
+       "id": "commercial_mode:TER",
+       "name": "TER"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:TER",
+       "name": "TER"
+      }
+     },
+     {
+      "id": "line:SNCF:1187-87697128-87761106",
+      "name": "Lyon-Part-Dieu - Gare Routière - Saint-Rambert-d'Albon",
+      "commercial_mode": {
+       "id": "commercial_mode:TER",
+       "name": "TER"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Coach",
+        "name": "Autocar"
+       }
+      ],
+      "network": {
+       "id": "network:SNCF:TER",
+       "name": "TER"
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "context": {
+  "current_datetime": "20261018T233307",
+  "timezone": "Europe/Paris"
+ }
+}
