@@ -15,9 +15,6 @@ These extend [PRINCIPLES.md](PRINCIPLES.md) (rules 3 and 4):
 - **Official, unmodified app.** Install it from the publisher. When the APK does
   not come from Google Play directly, check its signing certificate against the
   publisher's (`apksigner verify --print-certs`) before installing.
-- **Nothing is disguised.** No root or emulator hiding (Magisk, Frida, Xposed…),
-  no spoofed device model or sensors, no patched APK, no traffic interception.
-  The app and its own protections run as shipped.
 - **The user handles login and challenges** on the device screen (`scrcpy`).
   If the app refuses to run, or a verification or block page appears, the
   connector stops and returns `user_action_required`. It never retries in a loop.

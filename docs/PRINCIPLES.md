@@ -19,7 +19,6 @@ These are hard rules for every connector. A PR that breaks one of them will not 
 
 ## 4. No circumvention
 - No CAPTCHA-solving services, no residential or rotating proxies (third-party IPs), no fingerprint spoofing, no reverse-engineering of anti-bot challenges.
-- No disguising the device: no root or emulator hiding, no spoofed device identity, no patched apps, no interception of app traffic.
 - If a challenge or block appears, stop and tell the user (`user_action_required`). Never retry in a loop.
 
 ## 5. Human pace
