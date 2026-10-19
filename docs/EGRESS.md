@@ -1,4 +1,8 @@
-# Egress through the user's home connection
+# Egress through the user's home connection (optional)
+
+> **You do not need this** if autocruise runs at home: the device and browser
+> already use your connection. Nothing in autocruise depends on it; it is a
+> separate Docker Compose overlay you add only if you run autocruise on a server.
 
 autocruise is meant to run at home. If you run it on a server (VM, VPS), the
 sites and apps it drives see a **datacenter IP**, which anti-bot systems often

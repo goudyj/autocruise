@@ -18,7 +18,7 @@ A connector reaches its service through exactly one of these, in order of prefer
 Each path has a transport trait with a real and a mock implementation, so
 connectors are tested without network or device.
 
-## Egress: the user's own connection
+## Egress: the user's own connection (optional)
 
 When autocruise runs on a server (VM, VPS) rather than at home, sites see a
 datacenter IP. The optional **egress** container (`deploy/egress`) joins the
@@ -26,6 +26,9 @@ user's tailnet and leaves the Internet through a Tailscale exit node **at the
 user's home**, so the browser and the Android device use the user's real
 connection. It is opt-in, only carries the browser and device traffic, and
 is the user's own network, never a third-party proxy. See [EGRESS.md](EGRESS.md).
+
+Egress is pure deployment: no crate knows about it, and the default setup
+(running at home, \`deploy/android/compose.yaml\` alone) does not use it.
 
 ```
 redroid ──(shares egress network namespace)──┐

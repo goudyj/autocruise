@@ -1,7 +1,8 @@
-# Optional: route the Android device and the browser through the user's own
-# home connection (a Tailscale exit node). See docs/EGRESS.md.
+# OPTIONAL overlay, not needed when autocruise runs at home. Routes the Android
+# device and the browser through the user's own home connection (a Tailscale
+# exit node). deploy/android/compose.yaml works on its own. See docs/EGRESS.md.
 #
-#   AUTOCRUISE_EXIT_NODE=jlex-nas \
+#   AUTOCRUISE_EXIT_NODE=<home-machine> \
 #     docker compose -f deploy/android/compose.yaml -f deploy/egress/compose.yaml up -d
 #   docker logs autocruise-egress      # first run: open the login URL once
 services:
