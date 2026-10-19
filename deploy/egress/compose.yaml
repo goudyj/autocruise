@@ -21,6 +21,8 @@ services:
       TS_HOSTNAME: autocruise-egress
       TS_STATE_DIR: /var/lib/tailscale
       TS_USERSPACE: "false"
+      # Recent kernels ship nftables only; the image defaults to legacy iptables.
+      TS_DEBUG_FIREWALL_MODE: nftables
       # Optional pre-authorized key; otherwise log in once (see docs/EGRESS.md).
       TS_AUTHKEY: ${TS_AUTHKEY:-}
       TS_EXTRA_ARGS: --exit-node=${AUTOCRUISE_EXIT_NODE:?set AUTOCRUISE_EXIT_NODE to the Tailscale IP of your home exit node} --exit-node-allow-lan-access

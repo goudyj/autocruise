@@ -30,7 +30,8 @@ emulator; a service may still refuse it. Then try a real phone, or give up.
 ## Setup
 
 1. **At home**, on an always-on machine (NAS, mini PC…) on your tailnet:
-   enable IP forwarding, then advertise it as an exit node:
+   enable IP forwarding (and, if Docker or ufw runs there, allow forwarding
+   from \`tailscale0\`), then advertise it as an exit node:
 
    ```bash
    echo -e 'net.ipv4.ip_forward = 1\nnet.ipv6.conf.all.forwarding = 1' | sudo tee /etc/sysctl.d/99-tailscale.conf
@@ -45,6 +46,13 @@ emulator; a service may still refuse it. Then try a real phone, or give up.
    ```bash
    AUTOCRUISE_EXIT_NODE=100.x.y.z \
      docker compose -f deploy/android/compose.yaml -f deploy/egress/compose.yaml up -d
+   ```
+
+   On recent kernels, load the netfilter modules the container needs (once
+   per boot, or list them in \`/etc/modules-load.d/\`):
+
+   ```bash
+   sudo modprobe -a nf_tables nft_ct nft_chain_nat nft_masq nft_compat xt_mark xt_connmark ip_tables iptable_filter iptable_nat iptable_mangle
    ```
 
    First run without \`TS_AUTHKEY\`: the container gives up and restarts if
