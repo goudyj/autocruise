@@ -21,6 +21,10 @@ pub enum ErrorKind {
     Upstream,
     /// The service could not be reached.
     Network,
+    /// The user must act before retrying: log in, install the app, pass a
+    /// verification (CAPTCHA...) in their own browser or app. autocruise never
+    /// does these on the user's behalf.
+    UserActionRequired,
     /// A bug or misconfiguration in autocruise itself.
     Internal,
 }
@@ -36,6 +40,7 @@ impl ErrorKind {
             Self::NotFound => "not_found",
             Self::Upstream => "upstream",
             Self::Network => "network",
+            Self::UserActionRequired => "user_action_required",
             Self::Internal => "internal",
         }
     }

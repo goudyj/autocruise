@@ -1,0 +1,20 @@
+[package]
+name = "autocruise-android"
+description = "Drive the user's own Android apps over adb for autocruise connectors: device access, UI tree, input."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+autocruise-core.workspace = true
+quick-xml.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["process"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "rt"] }
+
+[lints]
+workspace = true

@@ -14,7 +14,8 @@ use crate::tools::Connector;
 
 const INSTRUCTIONS: &str = "autocruise: everyday-life tools for France, running locally. \
 Times are Europe/Paris: outputs carry an explicit UTC offset; inputs without an offset are read as Europe/Paris local time. \
-Failed calls return {\"error\": {\"kind\", \"message\"}}; kinds: missing_credentials, unauthorized, rate_limited, invalid_input, not_found, upstream, network, internal. \
+Failed calls return {\"error\": {\"kind\", \"message\"}}; kinds: missing_credentials, unauthorized, rate_limited, invalid_input, not_found, upstream, network, user_action_required, internal. \
+On user_action_required, relay the message to the user and wait for them: never try to work around it. \
 SNCF tools (sncf_*) give stations, journeys, departures/arrivals with real-time delays, train details and disruptions. \
 They cannot give prices or book tickets.";
 
