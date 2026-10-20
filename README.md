@@ -4,7 +4,7 @@
 
 autocruise lets your AI assistant handle everyday errands for you: check your train, compare your grocery basket across supermarkets, find a doctor's appointment. It runs **locally, on your machine**, and acts with **your own accounts**.
 
-> 🚧 **Early stage.** The SNCF connector works; the others are planned.
+> 🚧 **Early stage.** The SNCF connectors work; the others are planned.
 
 ## What is MCP?
 
@@ -52,11 +52,11 @@ SNCF_API_TOKEN=your-key autocruise call sncf_departures '{"station": "Paris Mont
 
 ```
 AI assistant ──MCP──▶ autocruise (your machine) ──▶ official APIs (SNCF, …)
-                                                └─▶ your own browser session (planned: Doctolib, supermarkets)
+                                                └─▶ your own browser session (SNCF Connect; planned: Doctolib, supermarkets)
 ```
 
 - **Official APIs** are used whenever a service provides one.
-- Otherwise, autocruise will work through **your already-open browser**, as you would by hand: you log in yourself, nothing is stored on a server.
+- Otherwise, autocruise works through **your already-open browser**, as you would by hand: you log in yourself, nothing is stored on a server. On sites that block automated browsers, it reads the page through accessibility and uses real keyboard and mouse input, at human pace, and stops on any security check for you to handle.
 - Running autocruise on a server instead of at home? *Optionally*, browser traffic can leave through **your home connection** (Tailscale exit node); see [docs/EGRESS.md](docs/EGRESS.md). Not needed otherwise.
 - Anything that commits you (booking, adding to a cart) **asks for confirmation first**. Payment is never automated.
 - Times are always given in French time with an explicit UTC offset.
@@ -66,6 +66,7 @@ AI assistant ──MCP──▶ autocruise (your machine) ──▶ official API
 | Area | Services | Status |
 |---|---|---|
 | Transport | SNCF: stations, journeys, departures/arrivals, trains, disruptions ([details](docs/connectors/sncf.md)) | ✅ available |
+| Transport | SNCF Connect (unofficial): ticket prices, free fare hold, through your own logged-in Chrome ([details](docs/connectors/sncf-connect.md)) | 🧪 experimental (Linux/X11) |
 | Groceries | Carrefour, E.Leclerc, Intermarché, and cross-store basket comparison | 🧭 planned |
 | Health | Doctolib | 🧭 planned |
 

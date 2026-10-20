@@ -12,12 +12,14 @@ These are hard rules for every connector. A PR that breaks one of them will not 
 - Unofficial connectors live under clearly labelled modules and say so in their tool descriptions.
 
 ## 3. User session, visible browser
-- Sites without an API are accessed through the user's own Chrome session over CDP.
+- Sites without an API are accessed through the user's own Chrome session: over CDP when the site accepts it, otherwise the way assistive technology works (accessibility tree to read, real desktop input to act; see [ARCHITECTURE.md](ARCHITECTURE.md)).
 - Login, store selection and any bot challenge are handled **by the user**, in the browser.
-- No password storage. No cookie-jar export.
+- No password storage. No cookie-jar export. No debugging port on the user's main profile.
 
 ## 4. No circumvention
 - No CAPTCHA-solving services, no residential or rotating proxies (third-party IPs), no fingerprint spoofing, no reverse-engineering of anti-bot challenges.
+- No hiding automation: no "stealth" patches, no masking of CDP. If a site refuses automated browsers, use the desktop path (the user's real browser, real input, human pace) or nothing.
+- Never interact with a challenge: no click, slide, typing or waiting it out in a loop on a CAPTCHA or verification page.
 - If a challenge or block appears, stop and tell the user (`user_action_required`). Never retry in a loop.
 
 ## 5. Human pace
@@ -26,8 +28,8 @@ These are hard rules for every connector. A PR that breaks one of them will not 
 
 ## 6. Confirmation for side effects
 - Tools are annotated read-only vs. destructive (MCP tool annotations).
-- Any action that commits the user (booking, cancelling, cart mutation) requires an explicit confirmation step.
-- Payment is never automated.
+- Any action that commits the user (booking, cancelling, cart mutation, fare hold) requires an explicit confirmation step: without `confirm: true` the tool only returns a preview.
+- Payment is never automated. Desktop connectors refuse to press any control whose label pays.
 
 ## 7. Sensitive data
 - Health data (Doctolib) is never written to logs, cache or disk by autocruise.

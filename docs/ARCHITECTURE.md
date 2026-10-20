@@ -12,10 +12,40 @@ A connector reaches its service through exactly one of these, in order of prefer
 | Path | Building block | Used when |
 |---|---|---|
 | Official API | `autocruise_core::http` | The service publishes an API (SNCF…). |
-| User's browser | `autocruise-browser` (planned, CDP) | No API, but a usable website. |
+| User's browser over CDP | `autocruise-browser` (planned) | No API, and the site tolerates a browser driven over the DevTools protocol. |
+| User's browser through the desktop | `autocruise-desktop` | No API, and the site blocks DevTools-driven browsers (SNCF Connect / DataDome). |
 
 Each path has a transport trait with a real and a mock implementation, so
 connectors are tested without network or browser.
+
+### The desktop path: accessibility + real input, not CDP
+
+Some sites (SNCF Connect, protected by DataDome) answer any Chrome driven over
+the DevTools protocol (`--remote-debugging-port`, Playwright, Puppeteer) with
+"Access is temporarily restricted", even on the user's own connection. The
+same user's normal Chrome, used by hand, works. autocruise does not try to hide
+CDP (that would be circumvention, see [PRINCIPLES.md](PRINCIPLES.md)); it uses
+the path assistive technology uses instead:
+
+- **Read** the page through the accessibility tree (AT-SPI over D-Bus on
+  Linux; Chrome started with `--force-renderer-accessibility`). Nothing is
+  injected into the page, no debugging port is open.
+- **Act** with real pointer and keyboard events on the display (X11 XTest),
+  paced by `autocruise_core::throttle`, like a person at the keyboard.
+- **Stop** on any bot check, block page or logged-out state
+  (`user_action_required`); the user handles it in the same browser.
+
+```
+connector ──▶ Driver (throttle, wait for page) ──▶ Desktop trait
+                                                    ├─ LinuxDesktop: AT-SPI (read) + XTest (input)
+                                                    └─ MockDesktop: recorded trees (fixtures) + recorded inputs
+```
+
+The browser must run on a display that stays up: the Gateway's managed desktop
+stops when nobody watches it, and Chrome dies with it. `deploy/desktop/`
+starts a persistent display (Xvfb, or Xtigervnc to look at it) with its own
+D-Bus session for the user's Chrome; see
+[connectors/sncf-connect.md](connectors/sncf-connect.md).
 
 ## Egress: the user's own connection (optional)
 
@@ -46,13 +76,20 @@ crates/
     http                 #   HttpTransport trait, ReqwestTransport, MockTransport
     error                #   ErrorKind + Classify
     throttle, cache
+  autocruise-desktop/    # shared, MCP-agnostic, names no service
+    Desktop trait        #   tree(app), input(click/type/key/scroll)
+    linux                #   LinuxDesktop: AT-SPI + XTest
+    mock, record         #   MockDesktop (fixtures), RecordingDesktop (to record fixtures)
+    Driver               #   throttled input, wait_until / wait_until_stable
 connectors/
   sncf/                  # autocruise-sncf: official SNCF API (Navitia)
+  sncf-connect/          # autocruise-sncf-connect: prices + fare hold via the user's browser (desktop path)
 deploy/
   egress/compose.yaml    # optional: route the browser through the user's home (Tailscale exit node)
+  desktop/               # persistent display + D-Bus for the user's Chrome (desktop path)
 ```
 
-Planned: `crates/autocruise-browser` (attach to the user's Chrome over CDP),
+Planned: `crates/autocruise-browser` (attach to the user's Chrome over CDP, for sites that allow it),
 `crates/autocruise-compare` (cross-store product matching), and connectors for
 Leclerc, Carrefour, Intermarché, Doctolib…
 
@@ -65,6 +102,7 @@ autocruise (binary) ──▶ connectors ──▶ autocruise-core
 
 - Connectors never depend on `rmcp`. They expose plain async methods.
 - Connectors never use `reqwest` directly: they go through `HttpTransport`.
+- Connectors never use `atspi`/`x11rb` directly: they go through `autocruise_desktop::Driver`.
 - `autocruise-core` never names a service.
 - The server core (`server.rs`) never names a connector.
 
@@ -128,10 +166,13 @@ No test touches the network.
 |---|---|---|
 | Conversion | `connectors/*/src/convert.rs` | Recorded API responses → tool outputs |
 | Requests | `connectors/*/tests/requests.rs` | Exact requests sent (path, query, auth, UTC times), error classification, cache |
+| Desktop flows | `connectors/*/tests/flow.rs` | Recorded accessibility trees + scripted transitions: inputs sent, pages read, stop on challenge |
 | MCP | `crates/autocruise/src/tools/*.rs` | Tool listing, annotations, structured output and error contract over a real MCP session |
 
 Fixtures are recorded from the live API and trimmed (no personal data, no
-tokens). Live checks are manual: `autocruise call ...` with real credentials.
+tokens). Desktop fixtures are accessibility trees recorded with
+`RecordingDesktop` (see the `live_prices` example), trimmed, and stripped of
+names and other personal data before they are committed. Live checks are manual: `autocruise call ...` with real credentials.
 
 ## Adding a connector
 
