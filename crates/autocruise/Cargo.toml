@@ -11,12 +11,17 @@ rust-version.workspace = true
 anyhow.workspace = true
 autocruise-core.workspace = true
 autocruise-sncf.workspace = true
+autocruise-sncf-connect.workspace = true
 clap.workspace = true
 rmcp.workspace = true
 schemars.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
+
+[dev-dependencies]
+autocruise-desktop.workspace = true
+chrono.workspace = true
 
 [lints]
 workspace = true

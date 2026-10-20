@@ -2,6 +2,7 @@
 //! `register`, plus one `Connector` variant.
 
 pub mod sncf;
+pub mod sncf_connect;
 
 use crate::server::Registry;
 
@@ -9,6 +10,9 @@ use crate::server::Registry;
 pub enum Connector {
     /// SNCF trains (official API, needs SNCF_API_TOKEN).
     Sncf,
+    /// SNCF Connect prices and fare hold (unofficial): drives the user's own
+    /// logged-in Chrome on their desktop (accessibility + real input).
+    SncfConnect,
 }
 
 impl Connector {
@@ -16,6 +20,9 @@ impl Connector {
     pub fn register(self, registry: &mut Registry) {
         match self {
             Self::Sncf => sncf::register(registry, autocruise_sncf::Sncf::from_env()),
+            Self::SncfConnect => {
+                sncf_connect::register(registry, autocruise_sncf_connect::SncfConnect::from_env())
+            }
         }
     }
 }

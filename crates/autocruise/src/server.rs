@@ -16,8 +16,9 @@ const INSTRUCTIONS: &str = "autocruise: everyday-life tools for France, running 
 Times are Europe/Paris: outputs carry an explicit UTC offset; inputs without an offset are read as Europe/Paris local time. \
 Failed calls return {\"error\": {\"kind\", \"message\"}}; kinds: missing_credentials, unauthorized, rate_limited, invalid_input, not_found, upstream, network, user_action_required, internal. \
 On user_action_required, relay the message to the user and wait for them: never try to work around it. \
-SNCF tools (sncf_*) give stations, journeys, departures/arrivals with real-time delays, train details and disruptions. \
-They cannot give prices or book tickets.";
+SNCF tools (sncf_*) give stations, journeys, departures/arrivals with real-time delays, train details and disruptions; they cannot give prices. \
+SNCF Connect tools (sncf_connect_*, when enabled) read prices from the user's own logged-in browser and can hold a fare with SNCF Connect's free option: \
+they are slow, call them one at a time, and never call sncf_connect_hold_fare with confirm=true without the user's explicit agreement to the preview.";
 
 type Services = HashMap<TypeId, Arc<dyn Any + Send + Sync>>;
 
