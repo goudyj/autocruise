@@ -14,6 +14,7 @@ rust-version = "1.88"
 autocruise-core = { path = "crates/autocruise-core" }
 autocruise-desktop = { path = "crates/autocruise-desktop" }
 autocruise-sncf = { path = "connectors/sncf" }
+autocruise-sncf-connect = { path = "connectors/sncf-connect" }
 
 anyhow = "1"
 chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
