@@ -87,4 +87,4 @@ and map them to `user_action_required`.
 
 | Service | Result | Date |
 |---|---|---|
-| Too Good To Go | **Blocked.** The official app (26.10.0, signature checked) starts on redroid, but its first network screen shows DataDome's "Access is temporarily restricted / unusual activity from your device or network". Retried once through the user's home connection ([EGRESS.md](EGRESS.md), residential IP verified): same block, so the device itself (emulator, adb) is flagged, not the IP. Not pursued on redroid. Remaining option: the user's own phone. | 2026-10-19 |
+| Too Good To Go | **Blocked.** The official app (26.10.0, signature checked) starts on redroid, but its first network screen shows DataDome's "Access is temporarily restricted / unusual activity from your device or network". Retried once through the user's home connection ([EGRESS.md](EGRESS.md), residential IP verified): same block, so the device itself (emulator, adb) is flagged, not the IP. Retried 9 h later (2026-10-20): still blocked. Not pursued on redroid. Remaining option: the user's own phone. | 2026-10-19 |
