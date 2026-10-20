@@ -11,7 +11,6 @@ repository = "https://github.com/goudyj/autocruise"
 rust-version = "1.88"
 
 [workspace.dependencies]
-autocruise-android = { path = "crates/autocruise-android" }
 autocruise-core = { path = "crates/autocruise-core" }
 autocruise-sncf = { path = "connectors/sncf" }
 
@@ -19,7 +18,6 @@ anyhow = "1"
 chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
 chrono-tz = "0.10"
 clap = { version = "4", features = ["derive"] }
-quick-xml = "0.38"
 reqwest = "0.13"
 rmcp = { version = "3.5", features = ["server", "client", "macros", "transport-io"] }
 schemars = "1"

@@ -5,16 +5,15 @@ These are hard rules for every connector. A PR that breaks one of them will not 
 ## 1. Local execution
 - The server runs on the user's machine (stdio, or HTTP bound to `127.0.0.1` by default).
 - No hosted autocruise backend that acts on behalf of third parties.
-- When it runs on the user's own server, browser and device traffic may leave through the **user's own home connection** (a Tailscale exit node they run; see [EGRESS.md](EGRESS.md)). Never through someone else's network.
+- When it runs on the user's own server, browser traffic may leave through the **user's own home connection** (a Tailscale exit node they run; see [EGRESS.md](EGRESS.md)). Never through someone else's network.
 
 ## 2. Official APIs first
 - If a service offers a public/official API (SNCF, IDFM, data.gouv…), use it.
 - Unofficial connectors live under clearly labelled modules and say so in their tool descriptions.
 
-## 3. User session, visible browser or official app
+## 3. User session, visible browser
 - Sites without an API are accessed through the user's own Chrome session over CDP.
-- Services that only have a mobile app are accessed through the **official, unmodified app**, logged in with the user's account, on an Android device the user controls (local redroid container or their phone), over adb. See [ANDROID.md](ANDROID.md).
-- Login, store selection and any bot challenge are handled **by the user**, in the browser or on the device screen.
+- Login, store selection and any bot challenge are handled **by the user**, in the browser.
 - No password storage. No cookie-jar export.
 
 ## 4. No circumvention

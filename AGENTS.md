@@ -12,12 +12,11 @@ Status: early. The SNCF connector works; others are planned. Read [docs/ARCHITEC
 
 - `crates/autocruise/`: binary. `src/server.rs` (MCP server + registry, connector-agnostic), `src/tools/<connector>.rs` (MCP tool wrappers), `src/local.rs` (in-process client used by the CLI).
 - `crates/autocruise-core/`: shared time zone handling, HTTP transport (real + mock), error kinds, throttling, cache.
-- `crates/autocruise-android/`: drive official Android apps over adb (device, UI tree, mock). See [docs/ANDROID.md](docs/ANDROID.md).
-- `deploy/android/`: local redroid device. `deploy/egress/`: optional Tailscale exit-node egress for device and browser ([docs/EGRESS.md](docs/EGRESS.md)).
+- `deploy/egress/`: optional Tailscale exit-node egress for the browser when running on a server ([docs/EGRESS.md](docs/EGRESS.md)).
 - `connectors/<service>/`: one crate per service (`autocruise-<service>`), MCP-agnostic, with `tests/fixtures/` and `tests/requests.rs`.
 - `docs/`: principles, architecture, one page per connector.
 
-Dependency rules: connectors never depend on `rmcp` or `reqwest` (use `autocruise_core::http`) and never spawn `adb` (use `autocruise_android::Device`); `server.rs` never names a connector.
+Dependency rules: connectors never depend on `rmcp` or `reqwest` (use `autocruise_core::http`); `server.rs` never names a connector.
 
 ## Useful commands
 

@@ -52,14 +52,12 @@ SNCF_API_TOKEN=your-key autocruise call sncf_departures '{"station": "Paris Mont
 
 ```
 AI assistant ──MCP──▶ autocruise (your machine) ──▶ official APIs (SNCF, …)
-                                                ├─▶ your own browser session (planned: Doctolib, supermarkets)
-                                                └─▶ the official app on your own Android device (experimental)
+                                                └─▶ your own browser session (planned: Doctolib, supermarkets)
 ```
 
 - **Official APIs** are used whenever a service provides one.
 - Otherwise, autocruise will work through **your already-open browser**, as you would by hand: you log in yourself, nothing is stored on a server.
-- For app-only services, it drives the **official app** on an Android device you control (a local container or your phone). Nothing is disguised; see [docs/ANDROID.md](docs/ANDROID.md).
-- Running autocruise on a server instead of at home? *Optionally*, browser and device traffic can leave through **your home connection** (Tailscale exit node); see [docs/EGRESS.md](docs/EGRESS.md). Not needed otherwise.
+- Running autocruise on a server instead of at home? *Optionally*, browser traffic can leave through **your home connection** (Tailscale exit node); see [docs/EGRESS.md](docs/EGRESS.md). Not needed otherwise.
 - Anything that commits you (booking, adding to a cart) **asks for confirmation first**. Payment is never automated.
 - Times are always given in French time with an explicit UTC offset.
 

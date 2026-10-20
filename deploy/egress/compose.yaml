@@ -1,14 +1,10 @@
-# OPTIONAL overlay, not needed when autocruise runs at home. Routes the Android
-# device and the browser through the user's own home connection (a Tailscale
-# exit node). deploy/android/compose.yaml works on its own. See docs/EGRESS.md.
+# OPTIONAL: not needed when autocruise runs at home. Sends the browser's
+# traffic through the user's own home connection (a Tailscale exit node) when
+# autocruise runs on a server. See docs/EGRESS.md.
 #
 #   AUTOCRUISE_EXIT_NODE=100.x.y.z \   # Tailscale IP of the exit node (not its name)
-#     docker compose -f deploy/android/compose.yaml -f deploy/egress/compose.yaml up -d
-#   adb -s 127.0.0.1:5555 shell settings put global http_proxy 172.30.0.2:1056
-#
-# The device keeps its own network namespace (Android's netd installs policy
-# routing that breaks tailscaled if they share one) and uses egress as its
-# system HTTP proxy.
+#     docker compose -f deploy/egress/compose.yaml up -d
+#   chrome --proxy-server=socks5://127.0.0.1:1055 ...
 services:
   egress:
     image: tailscale/tailscale:stable
@@ -26,28 +22,11 @@ services:
       # Optional pre-authorized key; otherwise log in once (see docs/EGRESS.md).
       TS_AUTHKEY: ${TS_AUTHKEY:-}
       TS_EXTRA_ARGS: --exit-node=${AUTOCRUISE_EXIT_NODE:?set AUTOCRUISE_EXIT_NODE to the Tailscale IP of your home exit node} --exit-node-allow-lan-access
-      TS_SOCKS5_SERVER: 0.0.0.0:1055 # browser
-      TS_OUTBOUND_HTTP_PROXY_LISTEN: 0.0.0.0:1056 # Android device
+      TS_SOCKS5_SERVER: 0.0.0.0:1055
     ports:
-      - "127.0.0.1:1055:1055"
-    networks:
-      autocruise:
-        ipv4_address: 172.30.0.2
+      - "127.0.0.1:1055:1055" # SOCKS5 for the browser, local only
     volumes:
       - egress-state:/var/lib/tailscale
-
-  android:
-    networks:
-      autocruise:
-        ipv4_address: 172.30.0.3
-    depends_on: [egress]
-
-networks:
-  autocruise:
-    name: autocruise
-    ipam:
-      config:
-        - subnet: 172.30.0.0/24
 
 volumes:
   egress-state:
