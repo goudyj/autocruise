@@ -12,6 +12,7 @@ rust-version = "1.88"
 
 [workspace.dependencies]
 autocruise-core = { path = "crates/autocruise-core" }
+autocruise-desktop = { path = "crates/autocruise-desktop" }
 autocruise-sncf = { path = "connectors/sncf" }
 
 anyhow = "1"

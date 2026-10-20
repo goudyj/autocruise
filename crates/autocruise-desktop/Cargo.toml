@@ -1,0 +1,23 @@
+[package]
+name = "autocruise-desktop"
+description = "Desktop access for autocruise: read a real application through accessibility (AT-SPI) and drive it with real input (X11 XTest), at human pace."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+autocruise-core.workspace = true
+atspi = { version = "0.30", default-features = false, features = ["proxies", "tokio", "zbus"] }
+x11rb = { version = "0.14", features = ["xtest"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }
+
+[lints]
+workspace = true
