@@ -106,20 +106,19 @@ Notes:
    `browser-desktop.sh stop`, then open Chrome in a visible desktop, fix
    things there, close it and start the script again.
 
-   To start it at login, a user unit (not installed for you) could be:
+   **To keep it running across reboots** (recommended for a server or a
+   chat bot), install it as a systemd user service:
 
-   ```ini
-   # ~/.config/systemd/user/autocruise-desktop.service
-   [Unit]
-   Description=Persistent display for the user's Chrome (autocruise)
-   [Service]
-   Type=oneshot
-   RemainAfterExit=yes
-   ExecStart=%h/path/to/autocruise/deploy/desktop/browser-desktop.sh start
-   ExecStop=%h/path/to/autocruise/deploy/desktop/browser-desktop.sh stop
-   [Install]
-   WantedBy=default.target
+   ```sh
+   deploy/desktop/browser-desktop.sh install-service          # or: install-service --vnc
+   systemctl --user status autocruise-desktop.service
+   sudo loginctl enable-linger "$USER"   # once: run user services without a login session
    ```
+
+   The unit runs `browser-desktop.sh run`, which starts everything and stays
+   in the foreground; if Chrome or the display exits, it fails and systemd
+   restarts it 15 s later. `uninstall-service` removes it. Logs:
+   `journalctl --user -u autocruise-desktop.service`.
 
 2. **Log in yourself** to sncf-connect.com in that Chrome, once. autocruise
    never types credentials. Use the site in English: autocruise opens

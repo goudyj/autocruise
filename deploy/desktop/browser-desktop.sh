@@ -12,6 +12,10 @@
 #   deploy/desktop/browser-desktop.sh env      # prints the variables for autocruise
 #   deploy/desktop/browser-desktop.sh status
 #   deploy/desktop/browser-desktop.sh stop
+#   deploy/desktop/browser-desktop.sh run [--vnc] [URL]    # start, then stay in the
+#                                  foreground until Chrome or the display exits
+#   deploy/desktop/browser-desktop.sh install-service [--vnc]   # systemd user unit
+#   deploy/desktop/browser-desktop.sh uninstall-service
 #
 # Settings (environment): AUTOCRUISE_DISPLAY_NUM (default 50),
 # AUTOCRUISE_VNC_PORT (default 5950, with --vnc), AUTOCRUISE_VNC_PASSWD
@@ -98,10 +102,71 @@ stop() {
   done
 }
 
+# Foreground mode for a service manager: start everything, then wait until
+# Chrome or the display goes away, stop the rest and fail so the manager
+# restarts it.
+run() {
+  start "$@"
+  while running x && running dbus && running chrome; do sleep 10; done
+  echo "Chrome or the display exited; stopping" >&2
+  stop
+  exit 1
+}
+
+unit_name="autocruise-desktop.service"
+unit_path="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/$unit_name"
+
+install_service() {
+  local args="" script
+  [ "${1:-}" = "--vnc" ] && args=" --vnc"
+  script="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+  mkdir -p "$(dirname "$unit_path")"
+  cat >"$unit_path" <<EOF
+# Installed by $script install-service
+[Unit]
+Description=autocruise: persistent display with the user's Chrome
+After=default.target
+
+[Service]
+Type=simple
+Environment=AUTOCRUISE_DISPLAY_NUM=$num
+ExecStart=$script run$args https://www.sncf-connect.com/en-en
+ExecStop=$script stop
+Restart=on-failure
+RestartSec=15
+
+[Install]
+WantedBy=default.target
+EOF
+  systemctl --user daemon-reload
+  if pgrep -u "$(id -u)" -x chrome >/dev/null && ! running chrome; then
+    echo "Chrome is running outside this script: close it, then run" >&2
+    echo "  systemctl --user enable --now $unit_name" >&2
+    systemctl --user enable "$unit_name"
+    return
+  fi
+  # A display started by hand would make the unit exit at once: hand it over.
+  stop
+  systemctl --user enable --now "$unit_name"
+  systemctl --user --no-pager status "$unit_name" | head -5
+  if [ "$(loginctl show-user "$(id -un)" -p Linger --value 2>/dev/null)" != yes ]; then
+    echo "note: without 'loginctl enable-linger $(id -un)' the service stops when you log out" >&2
+  fi
+}
+
+uninstall_service() {
+  systemctl --user disable --now "$unit_name" 2>/dev/null || true
+  rm -f "$unit_path"
+  systemctl --user daemon-reload
+}
+
 case "${1:-}" in
   start) shift; start "$@" ;;
+  run) shift; run "$@" ;;
+  install-service) shift; install_service "$@" ;;
+  uninstall-service) uninstall_service ;;
   env) print_env ;;
   status) status ;;
   stop) stop ;;
-  *) sed -n '2,20p' "$0"; exit 2 ;;
+  *) sed -n '2,26p' "$0"; exit 2 ;;
 esac
