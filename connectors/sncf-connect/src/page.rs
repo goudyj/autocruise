@@ -8,7 +8,7 @@ use autocruise_core::time;
 use autocruise_desktop::Node;
 use chrono::{Duration, NaiveDate, NaiveTime};
 
-use crate::types::{DayPrice, Journey, TravelClass};
+use crate::types::{DayPrice, Journey, TrainType, TravelClass};
 
 pub(crate) const SEARCH_URL: &str = "https://www.sncf-connect.com/en-en/home/search/od";
 pub(crate) const SEARCH_TITLE: &str = "SNCF Connect - Search";
@@ -276,10 +276,41 @@ pub(crate) fn hour_options(doc: &Node) -> Vec<&Node> {
 pub(crate) struct Results {
     pub origin: String,
     pub destination: String,
+    /// Journeys of the requested day, in page (departure) order.
     pub journeys: Vec<Journey>,
+    /// For each journey, its index in [`journey_cards`].
+    pub cards: Vec<usize>,
     pub days: Vec<DayPrice>,
     pub notices: Vec<String>,
-    pub more_later: bool,
+    /// "Display the next journeys" is shown.
+    pub next_button: bool,
+    /// "Display previous journeys" is shown.
+    pub previous_button: bool,
+    /// Cards for the following day were loaded: the requested day is over.
+    pub day_over: bool,
+    /// Cards for the previous day were loaded: nothing earlier that day.
+    pub day_started: bool,
+}
+
+pub(crate) const NEXT_JOURNEYS: &str = "Display the next journeys";
+pub(crate) const PREVIOUS_JOURNEYS: &str = "Display previous journeys";
+
+/// Result cards (one per offer), in page order.
+pub(crate) fn journey_cards(doc: &Node) -> Vec<&Node> {
+    doc.find_all(|n| {
+        n.role == "list item"
+            && n.children.iter().any(|c| {
+                c.find(|x| x.role == "heading" && x.name.contains("Departure from"))
+                    .is_some()
+            })
+    })
+}
+
+/// Departure time shown on a card.
+fn card_departure(card: &Node) -> Option<NaiveTime> {
+    card.find(|n| n.role == "heading" && n.name.contains("Departure from"))
+        .and_then(|h| parse_heading(&h.name))
+        .map(|(_, _, dep, _, _)| dep)
 }
 
 /// Whether the results page has finished loading.
@@ -292,7 +323,16 @@ pub(crate) fn results_ready(doc: &Node) -> bool {
 }
 
 /// Parses a results page for `date`. Fails if the page is for another date.
-pub(crate) fn parse_results(doc: &Node, date: NaiveDate) -> Result<Results, String> {
+///
+/// Loading next or previous journeys can run past midnight: the list then
+/// goes back in time (23:30, then 05:50). Cards are split into days at such
+/// drops; the day holding the card that leaves at `anchor` (the first train
+/// of the first page) is `date`, else the first one.
+pub(crate) fn parse_results(
+    doc: &Node,
+    date: NaiveDate,
+    anchor: Option<NaiveTime>,
+) -> Result<Results, String> {
     let texts: Vec<String> = doc.texts().into_iter().map(normalize).collect();
 
     let day = format!("{} {}", date.format("%-d"), date.format("%B"));
@@ -310,17 +350,38 @@ pub(crate) fn parse_results(doc: &Node, date: NaiveDate) -> Result<Results, Stri
         .map(|(o, d)| (o.trim().to_owned(), d.trim().to_owned()))
         .unwrap_or_default();
 
-    let journeys = doc
-        .find_all(|n| {
-            n.role == "list item"
-                && n.children.iter().any(|c| {
-                    c.find(|x| x.role == "heading" && x.name.contains("Departure from"))
-                        .is_some()
-                })
-        })
-        .into_iter()
-        .filter_map(|item| parse_journey(item, date))
-        .collect();
+    let cards = journey_cards(doc);
+    let times: Vec<Option<NaiveTime>> = cards.iter().map(|c| card_departure(c)).collect();
+    let mut segments = Vec::with_capacity(times.len());
+    let (mut segment, mut last): (i64, Option<NaiveTime>) = (0, None);
+    for t in &times {
+        if let (Some(t), Some(l)) = (t, last) {
+            // NaiveTime arithmetic wraps: compare the signed gap.
+            if l.signed_duration_since(*t) > Duration::hours(6) {
+                segment += 1;
+            }
+        }
+        if t.is_some() {
+            last = *t;
+        }
+        segments.push(segment);
+    }
+    let base = anchor
+        .and_then(|a| times.iter().position(|t| *t == Some(a)))
+        .map_or(0, |i| segments[i]);
+    let mut journeys = Vec::new();
+    let mut indices = Vec::new();
+    for (i, card) in cards.iter().enumerate() {
+        if segments[i] != base {
+            continue;
+        }
+        if let Some(j) = parse_journey(card, date) {
+            journeys.push(j);
+            indices.push(i);
+        }
+    }
+    let day_over = segments.iter().any(|s| *s > base);
+    let day_started = segments.iter().any(|s| *s < base);
 
     let days = doc
         .find_all(|n| n.role == "toggle button" && n.name.starts_with("Results for "))
@@ -332,9 +393,13 @@ pub(crate) fn parse_results(doc: &Node, date: NaiveDate) -> Result<Results, Stri
         origin,
         destination,
         journeys,
+        cards: indices,
         days,
         notices: notices(&texts),
-        more_later: button(doc, |n| n == "Display the next journeys").is_some(),
+        next_button: button(doc, |n| n == NEXT_JOURNEYS).is_some(),
+        previous_button: button(doc, |n| n == PREVIOUS_JOURNEYS).is_some(),
+        day_over,
+        day_started,
     })
 }
 
@@ -407,6 +472,56 @@ fn place_and_time(s: &str) -> Option<(String, NaiveTime)> {
         .filter(|w| *w == "AM" || *w == "PM");
     let time = parse_clock(words[i], ampm)?;
     Some((words[..i].join(" "), time))
+}
+
+/// "Train T E R" (spelled out for screen readers) -> "TER".
+pub(crate) fn clean_label(label: &str) -> String {
+    let mut words: Vec<String> = Vec::new();
+    let mut letters = String::new();
+    for w in label.split_whitespace() {
+        if w.len() == 1 && w.chars().all(|c| c.is_ascii_uppercase()) {
+            letters.push_str(w);
+        } else {
+            if !letters.is_empty() {
+                words.push(std::mem::take(&mut letters));
+            }
+            words.push(w.to_owned());
+        }
+    }
+    if !letters.is_empty() {
+        words.push(letters);
+    }
+    if words.len() == 2
+        && words[0] == "Train"
+        && words[1].len() > 1
+        && words[1].chars().all(|c| c.is_ascii_uppercase())
+    {
+        words.remove(0);
+    }
+    words.join(" ")
+}
+
+/// Category of a cleaned train label.
+pub(crate) fn train_category(label: &str) -> TrainType {
+    let l = fold(label);
+    let words: Vec<&str> = l.split_whitespace().collect();
+    if l.contains("inoui") {
+        TrainType::TgvInoui
+    } else if l.contains("ouigo") && l.contains("classique") {
+        TrainType::OuigoClassique
+    } else if l.contains("ouigo") {
+        TrainType::Ouigo
+    } else if l.contains("lyria") {
+        TrainType::Lyria
+    } else if l.contains("eurostar") {
+        TrainType::Eurostar
+    } else if l.contains("intercit") {
+        TrainType::Intercites
+    } else if words.contains(&"ter") {
+        TrainType::Ter
+    } else {
+        TrainType::Other
+    }
 }
 
 /// "TGV INOUI Departure from Paris - Gare De Lyon 10:14 AM bound for Grenoble 1:13 PM"
@@ -505,13 +620,16 @@ fn parse_journey(item: &Node, date: NaiveDate) -> Option<Journey> {
 
     let is_connection =
         label.is_empty() || label == "Trajet en correspondance" || label == "Connecting journey";
+    let label = clean_label(&label);
     Some(Journey {
         departure: time::format(&departure),
         arrival: time::format(&arrival),
         duration_minutes: duration,
         origin_station: origin,
         destination_station: destination,
+        train_category: (!is_connection).then(|| train_category(&label)),
         train_type: (!is_connection).then_some(label),
+        train_numbers: Vec::new(),
         direct: direct || (connections == 0 && !is_connection),
         connections,
         price_second_class: second,
@@ -534,18 +652,40 @@ pub(crate) fn is_payment(name: &str) -> bool {
         })
 }
 
-/// Results list item of the train leaving at `departure`.
-pub(crate) fn journey_item(doc: &Node, departure: NaiveTime) -> Option<&Node> {
-    doc.find(|n| {
-        n.role == "list item"
-            && n.children.iter().any(|c| {
-                c.find(|x| {
-                    x.role == "heading"
-                        && parse_heading(&x.name).is_some_and(|(_, _, dep, _, _)| dep == departure)
-                })
-                .is_some()
-            })
-    })
+/// The `nth` (0-based) results card of a train leaving at `departure`.
+pub(crate) fn journey_item(doc: &Node, departure: NaiveTime, nth: usize) -> Option<&Node> {
+    journey_cards(doc)
+        .into_iter()
+        .filter(|c| card_departure(c) == Some(departure))
+        .nth(nth)
+}
+
+/// The "Route details" button of a card (opens "This journey in detail").
+pub(crate) fn route_details(card: &Node) -> Option<&Node> {
+    card.find(|n| n.role == "button" && n.name.starts_with("Route details"))
+}
+
+pub(crate) const DETAIL_DIALOG: &str = "This journey in detail";
+pub(crate) const DETAIL_CLOSE: &str = "Close the dialog box and return to the current page";
+
+pub(crate) fn detail_dialog(doc: &Node) -> Option<&Node> {
+    doc.find(|n| n.role == "dialog" && n.name == DETAIL_DIALOG)
+}
+
+/// Train numbers in a journey detail ("no. 6623"), in travel order.
+pub(crate) fn train_numbers(dialog: &Node) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+    for n in dialog.iter().filter(|n| n.role == "static") {
+        let t = normalize(&n.name);
+        if let Some(num) = t.strip_prefix("no. ").or_else(|| t.strip_prefix("n° "))
+            && !num.is_empty()
+            && num.chars().all(|c| c.is_ascii_alphanumeric())
+            && !out.iter().any(|o| o == num)
+        {
+            out.push(num.to_owned());
+        }
+    }
+    out
 }
 
 /// The "Select your fare" button of a results item.
@@ -720,6 +860,10 @@ mod tests {
     }
 
     const RESULTS: &str = include_str!("../tests/fixtures/results.json");
+    const RESULTS_2PM: &str = include_str!("../tests/fixtures/results_2pm.json");
+    const RESULTS_2PM_NEXT: &str = include_str!("../tests/fixtures/results_2pm_next.json");
+    const RESULTS_2PM_PREVIOUS: &str = include_str!("../tests/fixtures/results_2pm_previous.json");
+    const JOURNEY_DETAIL: &str = include_str!("../tests/fixtures/journey_detail.json");
 
     fn tree(json: &str) -> Node {
         serde_json::from_str(json).expect("fixture")
@@ -733,6 +877,10 @@ mod tests {
             n.children.iter_mut().find_map(walk)
         }
         walk(app).expect("active document")
+    }
+
+    fn oct26() -> NaiveDate {
+        NaiveDate::from_ymd_opt(2026, 10, 26).unwrap()
     }
 
     #[test]
@@ -799,5 +947,97 @@ mod tests {
                 )]),
             ]));
         assert_eq!(challenge(&app).as_deref(), Some("slide right"));
+    }
+
+    #[test]
+    fn active_document_ignores_popups() {
+        let app = tree(RESULTS_2PM);
+        // The recorded tree also has a focused, empty, 0x0 document (Chrome UI).
+        assert_eq!(document(&app).unwrap().name, RESULTS_TITLE);
+    }
+
+    #[test]
+    fn two_trains_leaving_together_are_two_offers() {
+        let r = parse_results(&tree(RESULTS_2PM), oct26(), None).unwrap();
+        let five: Vec<&Journey> = r
+            .journeys
+            .iter()
+            .filter(|j| j.departure == "2026-10-26T17:00:00+01:00")
+            .collect();
+        assert_eq!(five.len(), 2, "two cards on the page");
+        assert_eq!(
+            (five[0].price_second_class, five[0].price_first_class),
+            (Some(70.0), Some(158.0))
+        );
+        assert_eq!(
+            (five[1].price_second_class, five[1].price_first_class),
+            (Some(70.0), Some(83.0))
+        );
+        assert_eq!(five[1].seats_left_first_class, Some(4));
+        assert_ne!(r.cards[5], r.cards[6], "different cards");
+        // Their details tell them apart (TGV INOUI 6623 and 6687).
+        let detail = tree(JOURNEY_DETAIL);
+        assert_eq!(train_numbers(&detail), ["6623"]);
+        assert!(r.next_button && r.previous_button && !r.day_over);
+    }
+
+    #[test]
+    fn later_pages_extend_the_list() {
+        let first = parse_results(&tree(RESULTS_2PM), oct26(), None).unwrap();
+        assert_eq!(first.journeys.len(), 7);
+        let anchor = Some(NaiveTime::from_hms_opt(14, 56, 0).unwrap());
+        let next = parse_results(&tree(RESULTS_2PM_NEXT), oct26(), anchor).unwrap();
+        assert_eq!(next.journeys.len(), 13);
+        assert_eq!(next.journeys[..7], first.journeys[..]);
+        assert_eq!(
+            next.journeys.last().unwrap().departure,
+            "2026-10-26T19:26:00+01:00"
+        );
+        let previous = parse_results(&tree(RESULTS_2PM_PREVIOUS), oct26(), anchor).unwrap();
+        assert_eq!(previous.journeys.len(), 21);
+        let ouigo = previous
+            .journeys
+            .iter()
+            .find(|j| j.departure == "2026-10-26T14:13:00+01:00")
+            .expect("the 14:13 is only behind \"previous\"");
+        assert_eq!(ouigo.train_category, Some(TrainType::Ouigo));
+        assert_eq!(ouigo.origin_station, "Marne-La-Vallee - Chessy");
+        let ter = previous
+            .journeys
+            .iter()
+            .find(|j| j.departure == "2026-10-26T15:35:00+01:00")
+            .unwrap();
+        assert_eq!(ter.train_type.as_deref(), Some("TER"));
+        assert_eq!(ter.train_category, Some(TrainType::Ter));
+    }
+
+    #[test]
+    fn cards_past_midnight_belong_to_the_next_day() {
+        let json = RESULTS_2PM_NEXT.replace(
+            "7:26\u{202f}PM bound for Lyon Part Dieu 9:22\u{202f}PM",
+            "5:50\u{202f}AM bound for Lyon Part Dieu 7:46\u{202f}AM",
+        );
+        assert_ne!(json, RESULTS_2PM_NEXT);
+        let anchor = Some(NaiveTime::from_hms_opt(14, 56, 0).unwrap());
+        let r = parse_results(&tree(&json), oct26(), anchor).unwrap();
+        assert_eq!(r.journeys.len(), 12, "the 5:50 AM is the next morning");
+        assert!(r.day_over && !r.day_started);
+    }
+
+    #[test]
+    fn labels_and_categories() {
+        assert_eq!(clean_label("Train T E R"), "TER");
+        assert_eq!(clean_label("TGV INOUI"), "TGV INOUI");
+        assert_eq!(clean_label("OUIGO Grande Vitesse"), "OUIGO Grande Vitesse");
+        assert_eq!(train_category("TGV INOUI"), TrainType::TgvInoui);
+        assert_eq!(train_category("OUIGO Grande Vitesse"), TrainType::Ouigo);
+        assert_eq!(
+            train_category("OUIGO Train Classique"),
+            TrainType::OuigoClassique
+        );
+        assert_eq!(train_category("TER"), TrainType::Ter);
+        assert_eq!(train_category("Intercités de nuit"), TrainType::Intercites);
+        assert_eq!(train_category("TGV Lyria"), TrainType::Lyria);
+        assert_eq!(train_category("Frecciarossa"), TrainType::Other);
     }
 }

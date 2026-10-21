@@ -8,17 +8,25 @@ use autocruise_core::throttle::Throttle;
 use autocruise_core::time;
 use autocruise_desktop::linux::LinuxDesktop;
 use autocruise_desktop::{Check, Desktop, DesktopError, Driver, Node, Rect};
-use chrono::{NaiveDate, NaiveTime, Timelike};
+use chrono::{DateTime, NaiveDate, NaiveTime, Timelike};
+use chrono_tz::Tz;
 use tokio::sync::Mutex;
 
 use crate::error::SncfConnectError;
 use crate::page::{self, Session};
 use crate::types::{
-    HoldFareParams, HoldFareResult, Journey, PricesParams, PricesResult, TravelClass,
+    Cheapest, HoldFareParams, HoldFareResult, Journey, PricesParams, PricesResult, TrainType,
+    TravelClass,
 };
 
 /// Application name on the accessibility bus.
 const APP: &str = "chrome";
+/// At most this many "Display the next journeys" pages per search.
+const MAX_NEXT_LOADS: usize = 6;
+/// At most this many "Display previous journeys" pages per search.
+const MAX_PREVIOUS_LOADS: usize = 2;
+/// At most this many journey details opened per search (train numbers).
+const MAX_DETAILS: usize = 6;
 
 /// Pacing and patience. Defaults are human-paced.
 #[derive(Debug, Clone)]
@@ -67,7 +75,10 @@ struct Request {
     to: String,
     date: NaiveDate,
     time_after: Option<NaiveTime>,
+    time_before: Option<NaiveTime>,
     passengers: u8,
+    direct_only: bool,
+    train_types: Option<Vec<TrainType>>,
 }
 
 impl Request {
@@ -87,6 +98,19 @@ impl Request {
             return Err(SncfConnectError::Invalid(format!("{date} is in the past")));
         }
         let time_after = p.time_after.as_deref().map(parse_time).transpose()?;
+        let time_before = p.time_before.as_deref().map(parse_time).transpose()?;
+        if let (Some(a), Some(b)) = (time_after, time_before)
+            && b <= a
+        {
+            return Err(SncfConnectError::Invalid(
+                "time_before must be later than time_after".into(),
+            ));
+        }
+        if p.train_types.as_ref().is_some_and(Vec::is_empty) {
+            return Err(SncfConnectError::Invalid(
+                "train_types must list at least one type (or be left out)".into(),
+            ));
+        }
         let passengers = p.passengers.unwrap_or(1);
         if !(1..=8).contains(&passengers) {
             return Err(SncfConnectError::Invalid(
@@ -98,20 +122,68 @@ impl Request {
             to: place(&p.to, "to")?,
             date,
             time_after,
+            time_before,
             passengers,
+            direct_only: p.direct_only.unwrap_or(false),
+            train_types: p.train_types,
         })
     }
 
+    /// What is read from the site (filters apply afterwards).
     fn cache_key(&self) -> String {
         format!(
-            "{}|{}|{}|{:?}|{}",
+            "{}|{}|{}|{:?}|{:?}|{}",
             self.from.to_lowercase(),
             self.to.to_lowercase(),
             self.date,
             self.time_after,
+            self.time_before,
             self.passengers
         )
     }
+
+    fn keeps(&self, j: &Journey) -> bool {
+        (!self.direct_only || (j.direct && j.connections == 0))
+            && self
+                .train_types
+                .as_ref()
+                .is_none_or(|types| j.train_category.is_some_and(|c| types.contains(&c)))
+    }
+
+    /// Applies the filters to everything read, and points at the cheapest.
+    fn filter(&self, mut read: PricesResult) -> PricesResult {
+        let before = read.journeys.len();
+        read.journeys.retain(|j| self.keeps(j));
+        read.filtered_out = u32::try_from(before - read.journeys.len()).unwrap_or(u32::MAX);
+        read.cheapest = cheapest(&read.journeys);
+        read
+    }
+}
+
+/// Cheapest fare, any class, among journeys that are not fully booked.
+fn cheapest(journeys: &[Journey]) -> Option<Cheapest> {
+    journeys
+        .iter()
+        .enumerate()
+        .filter(|(_, j)| !j.fully_booked)
+        .flat_map(|(i, j)| {
+            [
+                (i, TravelClass::Second, j.price_second_class),
+                (i, TravelClass::First, j.price_first_class),
+            ]
+        })
+        .filter_map(|(i, class, price)| price.map(|p| (i, class, p)))
+        .min_by(|a, b| a.2.total_cmp(&b.2))
+        .map(|(index, travel_class, price)| Cheapest {
+            index,
+            departure: journeys[index].departure.clone(),
+            travel_class,
+            price,
+        })
+}
+
+fn departure_of(j: &Journey) -> Option<DateTime<Tz>> {
+    time::parse_datetime(&j.departure).ok()
 }
 
 fn parse_time(s: &str) -> Result<NaiveTime, SncfConnectError> {
@@ -161,16 +233,16 @@ impl SncfConnect {
         let req = Request::parse(params, self.today())?;
         let key = req.cache_key();
         if let Some(hit) = self.cache.get(&key) {
-            return Ok(hit);
+            return Ok(req.filter(hit));
         }
         let _one_at_a_time = self.busy.lock().await;
         if let Some(hit) = self.cache.get(&key) {
-            return Ok(hit);
+            return Ok(req.filter(hit));
         }
         self.searches.wait().await;
         let result = self.search(&req).await?;
         self.cache.insert(key, result.clone());
-        Ok(result)
+        Ok(req.filter(result))
     }
 
     /// Holds a fare with SNCF Connect's free option ("Place an option for
@@ -183,18 +255,27 @@ impl SncfConnect {
     ) -> Result<HoldFareResult, SncfConnectError> {
         let departure = parse_time(&params.departure_time)?;
         let class = params.travel_class.unwrap_or_default();
+        // Read only up to the train: no later pages to load.
+        let until = departure
+            .overflowing_add_signed(chrono::Duration::minutes(1))
+            .0
+            .max(departure);
         let prices = PricesParams {
             from: params.from.clone(),
             to: params.to.clone(),
             date: params.date.clone(),
             time_after: Some(departure.format("%H:%M").to_string()),
+            time_before: (until > departure).then(|| until.format("%H:%M").to_string()),
             passengers: params.passengers,
+            direct_only: None,
+            train_types: None,
         };
+        let number = params.train_number.as_deref().map(str::trim);
         let req = Request::parse(prices.clone(), self.today())?;
 
         if params.confirm != Some(true) {
             let found = self.prices(prices).await?;
-            let journey = pick_journey(&found.journeys, req.date, departure)?;
+            let (journey, _) = pick_journey(&found.journeys, req.date, departure, number)?;
             let price = class_price(&journey, class)?;
             return Ok(HoldFareResult {
                 status: "preview".into(),
@@ -212,9 +293,9 @@ impl SncfConnect {
         let _one_at_a_time = self.busy.lock().await;
         self.searches.wait().await;
         let found = self.search(&req).await?;
-        let journey = pick_journey(&found.journeys, req.date, departure)?;
+        let (journey, nth) = pick_journey(&found.journeys, req.date, departure, number)?;
         class_price(&journey, class)?;
-        let (price, confirmation) = self.place_option(departure, class).await?;
+        let (price, confirmation) = self.place_option(departure, nth, class).await?;
         Ok(HoldFareResult {
             status: "held".into(),
             message: "The free option was placed on SNCF Connect (nothing paid). The user must pay it in SNCF Connect (Your tickets) before the deadline, or it lapses.".into(),
@@ -229,24 +310,25 @@ impl SncfConnect {
     async fn place_option(
         &self,
         departure: NaiveTime,
+        nth: usize,
         class: TravelClass,
     ) -> Result<(Option<f64>, Vec<String>), SncfConnectError> {
         let short = Duration::from_secs(15);
         self.click_visible("the fare list of the train", |doc| {
-            page::journey_item(doc, departure)
+            page::journey_item(doc, departure, nth)
                 .and_then(page::fare_toggle)
                 .cloned()
         })
         .await?;
         let price = self
             .wait_doc("the fares of the train", short, |doc| {
-                page::journey_item(doc, departure)
+                page::journey_item(doc, departure, nth)
                     .and_then(|item| page::fare_choice(item, class))
                     .map_or(Check::Pending, |(_, price)| Check::Ready(price))
             })
             .await?;
         self.click_visible("the fare to hold", |doc| {
-            page::journey_item(doc, departure)
+            page::journey_item(doc, departure, nth)
                 .and_then(|item| page::fare_choice(item, class))
                 .map(|(button, _)| button)
         })
@@ -387,31 +469,220 @@ impl SncfConnect {
         if req.passengers > 1 {
             self.add_passengers(req.passengers - 1).await?;
         }
-        let doc = self.submit().await?;
-        let results =
-            page::parse_results(&doc, req.date).map_err(SncfConnectError::UnexpectedPage)?;
+        let mut doc = self.submit().await?;
+        let parse = |doc: &Node, anchor: Option<NaiveTime>| {
+            page::parse_results(doc, req.date, anchor).map_err(SncfConnectError::UnexpectedPage)
+        };
+        let first = parse(&doc, None)?;
+        // The first train of the first page tells which day is which once
+        // later pages run past midnight.
+        let anchor = first
+            .journeys
+            .first()
+            .and_then(departure_of)
+            .map(|d| d.time());
 
         let start_time = req
             .time_after
             .unwrap_or_else(|| NaiveTime::from_hms_opt(hour, 0, 0).expect("valid hour"));
         let start = time::localize(req.date.and_time(start_time))?;
-        let journeys = results
+        let end = req
+            .time_before
+            .map(|t| time::localize(req.date.and_time(t)))
+            .transpose()?;
+        let in_range =
+            |j: &Journey| departure_of(j).is_some_and(|d| d >= start && end.is_none_or(|e| d < e));
+
+        // The first page holds a few trains: load the rest of the day.
+        for _ in 0..MAX_NEXT_LOADS {
+            let r = parse(&doc, anchor)?;
+            let past_end = end.is_some_and(|e| {
+                r.journeys
+                    .last()
+                    .and_then(departure_of)
+                    .is_some_and(|d| d >= e)
+            });
+            if r.day_over || !r.next_button || past_end {
+                break;
+            }
+            match self.load_more(page::NEXT_JOURNEYS, &doc).await? {
+                Some(more) => doc = more,
+                None => break,
+            }
+        }
+        // SNCF Connect may start the list after the requested time (a train
+        // at 14:13 is behind "previous" for a search from 14:00).
+        if req.time_after.is_some() {
+            for _ in 0..MAX_PREVIOUS_LOADS {
+                let r = parse(&doc, anchor)?;
+                let gap = r
+                    .journeys
+                    .first()
+                    .and_then(departure_of)
+                    .is_some_and(|d| d > start);
+                if !gap || r.day_started || !r.previous_button {
+                    break;
+                }
+                match self.load_more(page::PREVIOUS_JOURNEYS, &doc).await? {
+                    Some(more) => doc = more,
+                    None => break,
+                }
+            }
+        }
+
+        let mut results = parse(&doc, anchor)?;
+        let beyond_end = results
             .journeys
-            .into_iter()
-            .filter(|j| time::parse_datetime(&j.departure).is_ok_and(|d| d >= start))
+            .iter()
+            .any(|j| departure_of(j).is_some_and(|d| end.is_some_and(|e| d >= e)));
+        let more_later = beyond_end || (results.next_button && !results.day_over);
+
+        let wanted: Vec<usize> = (0..results.journeys.len())
+            .filter(|&i| in_range(&results.journeys[i]))
             .collect();
+        self.add_train_numbers(&mut results, &wanted).await?;
+
+        let mut journeys: Vec<Journey> = Vec::new();
+        for i in wanted {
+            let j = &results.journeys[i];
+            // The same card read twice (same train number and offer).
+            if !j.train_numbers.is_empty() && journeys.contains(j) {
+                continue;
+            }
+            journeys.push(j.clone());
+        }
+        journeys.sort_by_key(|j| departure_of(j).map(|d| d.timestamp()));
         Ok(PricesResult {
             origin: results.origin,
             destination: results.destination,
             date: req.date.format("%Y-%m-%d").to_string(),
             searched_from: time::format(&start),
+            searched_until: end.as_ref().map(time::format),
             passengers: req.passengers,
             currency: "EUR".into(),
             journeys,
+            cheapest: None,
+            filtered_out: 0,
             cheapest_per_day: results.days,
             notices: results.notices,
-            more_later: results.more_later,
+            more_later,
         })
+    }
+
+    /// Presses "Display the next/previous journeys" and returns the page once
+    /// more cards are shown; `None` if nothing more came.
+    async fn load_more(&self, label: &str, doc: &Node) -> Result<Option<Node>, SncfConnectError> {
+        let before = page::journey_cards(doc).len();
+        let pressed = self
+            .click_visible(label, |doc| page::button(doc, |n| n == label).cloned())
+            .await;
+        if !optional(pressed)? {
+            return Ok(None);
+        }
+        let more = self
+            .wait_doc(label, Duration::from_secs(20), |doc| {
+                if page::journey_cards(doc).len() > before {
+                    Check::Ready(())
+                } else {
+                    Check::Pending
+                }
+            })
+            .await;
+        if !optional(more)? {
+            return Ok(None);
+        }
+        // Let the new cards finish rendering (and keep a human pace).
+        self.driver.pause(Duration::from_millis(1500)).await;
+        let app = self.snapshot().await?;
+        Ok(page::document(&app)
+            .filter(|d| page::results_ready(d))
+            .cloned())
+    }
+
+    /// Several results leaving at the same time and arriving at the same
+    /// time are different trains (coupled units sold separately, each with
+    /// its own fares): read their numbers in "Route details".
+    async fn add_train_numbers(
+        &self,
+        results: &mut page::Results,
+        wanted: &[usize],
+    ) -> Result<(), SncfConnectError> {
+        let same = |a: &Journey, b: &Journey| {
+            a.departure == b.departure
+                && a.arrival == b.arrival
+                && a.origin_station == b.origin_station
+                && a.destination_station == b.destination_station
+        };
+        let ambiguous: Vec<usize> = wanted
+            .iter()
+            .copied()
+            .filter(|&i| {
+                wanted
+                    .iter()
+                    .any(|&k| k != i && same(&results.journeys[i], &results.journeys[k]))
+            })
+            .take(MAX_DETAILS)
+            .collect();
+        for i in ambiguous {
+            match self.read_train_numbers(results.cards[i]).await? {
+                Some(numbers) => results.journeys[i].train_numbers = numbers,
+                None => break,
+            }
+        }
+        Ok(())
+    }
+
+    /// Opens the details of one card, reads its train numbers and closes
+    /// them again. `None` when the details did not show up.
+    async fn read_train_numbers(
+        &self,
+        card: usize,
+    ) -> Result<Option<Vec<String>>, SncfConnectError> {
+        let short = Duration::from_secs(10);
+        let opened = self
+            .click_visible("the route details", |doc| {
+                page::journey_cards(doc)
+                    .get(card)
+                    .and_then(|c| page::route_details(c))
+                    .cloned()
+            })
+            .await;
+        if !optional(opened)? {
+            return Ok(None);
+        }
+        let numbers = self
+            .wait_doc(
+                "the journey details",
+                short,
+                |doc| match page::detail_dialog(doc).map(page::train_numbers) {
+                    Some(n) if !n.is_empty() => Check::Ready(n),
+                    _ => Check::Pending,
+                },
+            )
+            .await;
+        let numbers = match numbers {
+            Ok(n) => Some(n),
+            Err(e) if is_soft(&e) => None,
+            Err(e) => return Err(e),
+        };
+        let app = self.snapshot().await?;
+        if page::document(&app).and_then(page::detail_dialog).is_some() {
+            self.click_visible("Close the journey details", |doc| {
+                page::detail_dialog(doc)
+                    .and_then(|d| page::button(d, |n| n == page::DETAIL_CLOSE))
+                    .cloned()
+            })
+            .await?;
+            self.wait_doc("the journey details to close", short, |doc| {
+                if page::detail_dialog(doc).is_none() {
+                    Check::Ready(())
+                } else {
+                    Check::Pending
+                }
+            })
+            .await?;
+        }
+        Ok(numbers)
     }
 
     /// Current tree, failing on a challenge.
@@ -479,7 +750,7 @@ impl SncfConnect {
         what: &str,
         find: impl Fn(&Node) -> Option<Node>,
     ) -> Result<(), SncfConnectError> {
-        for _ in 0..8 {
+        for _ in 0..12 {
             let node = self
                 .stable_node(what, Duration::from_secs(10), |doc| {
                     find(doc).map_or(Check::Pending, Check::Ready)
@@ -497,7 +768,13 @@ impl SncfConnect {
             }
             let (_, vy) = view.center();
             let sx = x.clamp(view.x + 1, view.x + view.width - 2);
-            let notches = if y > vy { 3 } else { -3 };
+            // About 120 pixels per notch; at least 3, at most 10 at a time.
+            let notches = ((y - vy) / 120).clamp(-10, 10);
+            let notches = if y > vy {
+                notches.max(3)
+            } else {
+                notches.min(-3)
+            };
             self.driver.scroll(sx, vy, notches).await?;
             self.driver.pause(Duration::from_millis(500)).await;
         }
@@ -752,6 +1029,26 @@ enum Step {
     Press(Node),
 }
 
+/// Failures that only mean "the page did not do it" (nothing showed up,
+/// the control could not be reached), as opposed to a challenge, a logged
+/// out session or an unreachable desktop.
+fn is_soft(e: &SncfConnectError) -> bool {
+    matches!(
+        e,
+        SncfConnectError::UnexpectedPage(_)
+            | SncfConnectError::Desktop(DesktopError::Timeout(_) | DesktopError::NotClickable(_))
+    )
+}
+
+/// `Ok(true)` if it worked, `Ok(false)` on a soft failure (optional step).
+fn optional(r: Result<(), SncfConnectError>) -> Result<bool, SncfConnectError> {
+    match r {
+        Ok(()) => Ok(true),
+        Err(e) if is_soft(&e) => Ok(false),
+        Err(e) => Err(e),
+    }
+}
+
 fn class_name(class: TravelClass) -> &'static str {
     match class {
         TravelClass::Second => "second-class",
@@ -759,22 +1056,42 @@ fn class_name(class: TravelClass) -> &'static str {
     }
 }
 
+/// The journey to hold, and its rank among the results leaving at that
+/// time (several coupled trains may leave together).
 fn pick_journey(
     journeys: &[Journey],
     date: NaiveDate,
     departure: NaiveTime,
-) -> Result<Journey, SncfConnectError> {
+    train_number: Option<&str>,
+) -> Result<(Journey, usize), SncfConnectError> {
     let wanted = time::localize(date.and_time(departure)).map(|d| time::format(&d))?;
-    journeys
-        .iter()
-        .find(|j| j.departure == wanted)
-        .cloned()
-        .ok_or_else(|| {
-            SncfConnectError::JourneyNotFound(format!(
-                "no train leaving at {} on {date} in the SNCF Connect results; check sncf_connect_prices",
-                departure.format("%H:%M")
-            ))
-        })
+    let at: Vec<&Journey> = journeys.iter().filter(|j| j.departure == wanted).collect();
+    let hhmm = departure.format("%H:%M");
+    if at.is_empty() {
+        return Err(SncfConnectError::JourneyNotFound(format!(
+            "no train leaving at {hhmm} on {date} in the SNCF Connect results; check sncf_connect_prices"
+        )));
+    }
+    match train_number.filter(|n| !n.is_empty()) {
+        Some(number) => at
+            .iter()
+            .position(|j| j.train_numbers.iter().any(|n| n == number))
+            .map(|i| (at[i].clone(), i))
+            .ok_or_else(|| {
+                SncfConnectError::JourneyNotFound(format!(
+                    "no train number {number} leaving at {hhmm} on {date}; check sncf_connect_prices"
+                ))
+            }),
+        None if at.len() > 1 => {
+            let numbers: Vec<String> = at.iter().map(|j| j.train_numbers.join("+")).collect();
+            Err(SncfConnectError::Invalid(format!(
+                "{} trains leave at {hhmm} on {date} (train numbers {}), with different fares: pass train_number",
+                at.len(),
+                numbers.join(", ")
+            )))
+        }
+        None => Ok((at[0].clone(), 0)),
+    }
 }
 
 fn class_price(journey: &Journey, class: TravelClass) -> Result<f64, SncfConnectError> {
@@ -800,7 +1117,10 @@ mod tests {
             to: "Lyon".into(),
             date: date.into(),
             time_after: Some("08:30".into()),
+            time_before: None,
             passengers: None,
+            direct_only: None,
+            train_types: None,
         }
     }
 

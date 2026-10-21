@@ -17,7 +17,7 @@ pub fn register(registry: &mut Registry, service: SncfConnect) {
 impl Autocruise {
     #[tool(
         name = "sncf_connect_prices",
-        description = "Train ticket prices from SNCF Connect (unofficial) for one day: trains with departure/arrival, duration, train type, connections, lowest 2nd and 1st class fares in EUR, seats left at that price, plus the cheapest fare of each day around the date. Works by driving the user's own logged-in Chrome on their desktop (reads the page through accessibility, types and clicks like a person): slow (about 30 to 60 seconds), one search at a time, results cached 5 minutes. Read-only: books nothing. If SNCF Connect shows a security check or the user is logged out, it stops and returns user_action_required: tell the user to handle it in their browser.",
+        description = "Train ticket prices from SNCF Connect (unofficial) for one day, from time_after (default: morning) to time_before (default: end of the day): trains sorted by departure, with arrival, duration, train type, connections, lowest 2nd and 1st class fares in EUR, seats left at that price, plus a cheapest field (index, class and price of the cheapest journey returned) and the cheapest fare of each day around the date. Optional filters: direct_only=true keeps journeys without connection; train_types keeps only these products, e.g. [\"tgv_inoui\",\"ouigo\"] for high-speed only (values: tgv_inoui, ouigo, ouigo_classique, ter, intercites, lyria, eurostar, other; journeys with connections are left out). Several trains may leave at the same minute (coupled trains sold separately, with different fares): they are told apart by train_numbers. Works by driving the user's own logged-in Chrome on their desktop (reads the page through accessibility, types, clicks and scrolls like a person): slow (about 1 to 2 minutes for a whole day; a time_before makes it faster), one search at a time, results cached 5 minutes (changing only the filters needs no new search). Read-only: books nothing. If SNCF Connect shows a security check or the user is logged out, it stops and returns user_action_required: tell the user to handle it in their browser.",
         annotations(
             title = "SNCF Connect prices",
             read_only_hint = true,
@@ -37,7 +37,7 @@ impl Autocruise {
 
     #[tool(
         name = "sncf_connect_hold_fare",
-        description = "Hold a train fare with SNCF Connect's free option (\"Place an option for free\"): the price and seat are kept until a deadline set by SNCF Connect, without paying. Not offered on OUIGO, TER, Eurostar or non-exchangeable fares, nor close to departure. MUTATING: with confirm=true it adds the trip to the basket of the user's SNCF Connect account in their own logged-in browser and places the option; without confirm it changes nothing and returns a preview. Always show the preview to the user and get their explicit agreement before calling with confirm=true. Never pays and never buys insurance; the user pays later in SNCF Connect. Slow (about a minute).",
+        description = "Hold a train fare with SNCF Connect's free option (\"Place an option for free\"): the price and seat are kept until a deadline set by SNCF Connect, without paying. Pick the train by departure_time, plus train_number when sncf_connect_prices shows several trains at that time. Not offered on OUIGO, TER, Eurostar or non-exchangeable fares, nor close to departure. MUTATING: with confirm=true it adds the trip to the basket of the user's SNCF Connect account in their own logged-in browser and places the option; without confirm it changes nothing and returns a preview. Always show the preview to the user and get their explicit agreement before calling with confirm=true. Never pays and never buys insurance; the user pays later in SNCF Connect. Slow (about a minute).",
         annotations(
             title = "Hold an SNCF Connect fare",
             read_only_hint = false,
@@ -115,6 +115,10 @@ mod tests {
             assert_eq!(passengers["minimum"], 1, "{}: {passengers}", tool.name);
             assert_eq!(passengers["maximum"], 8, "{}: {passengers}", tool.name);
         }
+        let schema = serde_json::to_value(&prices.input_schema).unwrap();
+        assert!(schema["properties"]["direct_only"].is_object());
+        assert!(schema["properties"]["train_types"].is_object());
+        assert!(schema["properties"]["time_before"].is_object());
         client.cancel().await.unwrap();
     }
 
