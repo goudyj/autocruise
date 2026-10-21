@@ -22,10 +22,26 @@ normal Chrome the way assistive technology does:
   appears and returns `user_action_required`. It never touches a challenge:
   you complete it (or wait it out) in the browser, then ask again.
 
+Challenge detection looks only at the page of the **active tab** (and the
+iframes inside it, where DataDome's check lives: `captcha-delivery.com`,
+"DataDome CAPTCHA", "Verification required", "Slide right", "Access is
+temporarily restricted", in English and French). Other tabs, the address
+bar, extension popups (e.g. a password manager) and ad frames are ignored:
+they used to cause false alarms. The bare word "datadome" is not a marker.
+
 One search fills the search form (departure, arrival, date, 2-hour time slot,
-travellers), presses "See prices" and reads the first page of results: about
-30 to 60 seconds. Searches run one at a time, at least 30 seconds apart, and
-results are cached 5 minutes. A pre-filled search URL was tried once and does
+travellers), presses "See prices" and reads the results. The first page only
+holds a few trains, so autocruise then presses "Display the next journeys"
+(scrolling like a person, about 1.5 s apart) until the day is over, the list
+passes `time_before`, or 6 extra pages were loaded; and "Display previous
+journeys" (at most twice) when the list starts later than `time_after`
+(SNCF Connect may hide a 14:13 train behind it for a search from 14:00).
+Cards for the next day (the list going back past midnight) are dropped. When
+several results leave and arrive at the same minute (coupled TGV units sold
+separately, each with its own fares), it opens "Route details" for each of
+them to read the train numbers. A whole afternoon takes about 1.5 to 2
+minutes. Searches run one at a time, at least 30 seconds apart, and what was
+read is cached 5 minutes (changing only the filters reuses it). A pre-filled search URL was tried once and does
 not work: `/app/redirect?redirection_type=SEARCH&...` lands on the form with the
 previous values, so the form is always driven.
 
@@ -35,10 +51,27 @@ Linux with X11 only for now (Xvfb, Xtigervnc or a desktop session).
 
 | Tool | Kind | What it does |
 |---|---|---|
-| `sncf_connect_prices` | read-only | `{from, to, date, time_after?, passengers?}` → trains from `time_after` (first page, about 5 to 10 trains): departure/arrival (RFC 3339, Europe/Paris), duration, train type, connections, lowest 2nd/1st class fare in EUR (`null` if not sold), seats left at that price, fully booked flag; the cheapest fare of each day around the date; route notices; `more_later`. |
-| `sncf_connect_hold_fare` | **mutating** | `{from, to, date, departure_time, travel_class?, passengers?, confirm?}`. Without `confirm: true`: preview only, nothing changes. With it: adds the standard fare of that class to your basket, keeps the default seat choice, skips partner offers, answers "No, do not insure this trip", places the free option and returns SNCF Connect's confirmation text. It **never pays** (any control labelled pay/payment is refused) and stops before payment. If SNCF Connect does not offer the option for the order, the trip is removed from the basket again. |
+| `sncf_connect_prices` | read-only | `{from, to, date, time_after?, time_before?, passengers?, direct_only?, train_types?}` → trains from `time_after` to `time_before` (default: the rest of the day), sorted by departure: departure/arrival (RFC 3339, Europe/Paris), duration, train type label and `train_category`, connections, lowest 2nd/1st class fare in EUR (`null` if not sold), seats left at that price, fully booked flag, `train_numbers` (only for trains leaving together); `cheapest` (index, class and price of the cheapest returned journey); `filtered_out`; the cheapest fare of each day around the date; route notices; `more_later`. |
+| `sncf_connect_hold_fare` | **mutating** | `{from, to, date, departure_time, train_number?, travel_class?, passengers?, confirm?}` (`train_number` only when several trains leave at that time). Without `confirm: true`: preview only, nothing changes. With it: adds the standard fare of that class to your basket, keeps the default seat choice, skips partner offers, answers "No, do not insure this trip", places the free option and returns SNCF Connect's confirmation text. It **never pays** (any control labelled pay/payment is refused) and stops before payment. If SNCF Connect does not offer the option for the order, the trip is removed from the basket again. |
+
+Filters (applied after reading, so they never change what is loaded):
+- `direct_only: true`: journeys without any connection.
+- `train_types`: any of `tgv_inoui`, `ouigo` (OUIGO Grande Vitesse),
+  `ouigo_classique`, `ter`, `intercites`, `lyria`, `eurostar`, `other`.
+  High-speed only is `["tgv_inoui", "ouigo"]`. Journeys with connections
+  have no single type and are left out when this is set. The site's own
+  "Type of train" and "Direct travel" filters are not used (a "Direct travel"
+  left on by a previous search is switched off, so reads are complete).
+
+`more_later` is true when trains of that day exist after those returned
+(after `time_before`, or beyond the 6 extra pages).
 
 Notes:
+- Two results may leave at the same minute for the same station: on Paris →
+  Lyon, the 17:00 TGV INOUI runs as two coupled trains (6623 and 6687) with
+  their own fares (first class €158 vs €83 on the day checked). They are two
+  offers, not a duplicate; `train_numbers` tells them apart, and
+  `sncf_connect_hold_fare` then needs `train_number`.
 - Extra travellers (`passengers` > 1) are added as anonymous adults (30-59)
   without discount card; the first traveller is your account profile.
 - The option is not offered on OUIGO, TER, Eurostar, non-exchangeable fares,
@@ -127,4 +160,8 @@ autocruise call sncf_connect_prices '{"from":"Paris","to":"Lyon","date":"2026-10
   runs one live search and records every tree read. Trim and **sanitize**
   (your name, companions, loyalty status, e-mail) before adding fixtures.
 - Tests (`tests/flow.rs`) replay recorded trees of a Paris → Lyon search with
-  a mock desktop; basket pages for the fare hold are synthetic.
+  a mock desktop (`MockDesktop::with_scrolling` moves page content on wheel
+  input); basket pages for the fare hold are synthetic. The `results_2pm*`
+  fixtures are a Monday 26 October afternoon: first page, after "Display the
+  next journeys", after "Display previous journeys"; `journey_detail.json`
+  is the "This journey in detail" dialog of the 17:00 TGV INOUI 6623.
