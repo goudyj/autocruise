@@ -61,9 +61,7 @@ strings (no SecretRef), and the Gateway's exec egress proxy does not apply
 which loads a private env file:
 
 ```sh
-# Type the token at the hidden prompt (not stored in shell history).
-mkdir -p ~/.config/autocruise && (umask 077; read -rsp 'SNCF token: ' t; echo; \
-  printf 'SNCF_API_TOKEN=%s\n' "$t" > ~/.config/autocruise/env)
+deploy/autocruise-env.sh --set SNCF_API_TOKEN   # hidden prompt, file mode 600
 ```
 
 and use it as the command in step 3:
