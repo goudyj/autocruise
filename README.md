@@ -72,7 +72,7 @@ AI assistant ──MCP──▶ autocruise (your machine) ──▶ official API
 
 ## Principles
 
-Local only · your session, your browser · no anti-bot circumvention · human-paced requests · confirmation before side effects · no telemetry. Details in [docs/PRINCIPLES.md](docs/PRINCIPLES.md). Internals in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Local only · your session, your browser · no anti-bot circumvention · human-paced requests · confirmation before side effects · no telemetry. Details in [docs/PRINCIPLES.md](docs/PRINCIPLES.md). Internals in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Running it for an OpenClaw Gateway (Telegram, Control UI): [docs/OPENCLAW.md](docs/OPENCLAW.md).
 
 ## Disclaimer
 
