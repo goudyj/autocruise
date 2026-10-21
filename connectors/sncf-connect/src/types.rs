@@ -22,6 +22,7 @@ pub struct PricesParams {
     /// user with their discount cards; extra travellers are added as adults
     /// (30-59) without discount card.
     #[serde(default)]
+    #[schemars(range(min = 1, max = 8))]
     pub passengers: Option<u8>,
 }
 
@@ -95,6 +96,7 @@ pub struct HoldFareParams {
     pub travel_class: Option<TravelClass>,
     /// Number of travellers, 1 to 8 (default 1), as for sncf_connect_prices.
     #[serde(default)]
+    #[schemars(range(min = 1, max = 8))]
     pub passengers: Option<u8>,
     /// Must be true to actually place the option. Without it, nothing is
     /// changed and a preview is returned: show it to the user and ask them.

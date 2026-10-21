@@ -109,6 +109,12 @@ mod tests {
         assert_eq!(ann.destructive_hint, Some(true));
         let schema = serde_json::to_value(&hold.input_schema).unwrap();
         assert!(schema["properties"]["confirm"].is_object());
+        for tool in [prices, hold] {
+            let schema = serde_json::to_value(&tool.input_schema).unwrap();
+            let passengers = &schema["properties"]["passengers"];
+            assert_eq!(passengers["minimum"], 1, "{}: {passengers}", tool.name);
+            assert_eq!(passengers["maximum"], 8, "{}: {passengers}", tool.name);
+        }
         client.cancel().await.unwrap();
     }
 
