@@ -69,7 +69,11 @@ and use it as the command in step 3:
 readable by others. The token still sits in plain text in that file (mode
 600): that is the trade-off.
 
-## 4. Approvals
+## 4. Agent skill (optional)
+
+The repository ships `.agents/skills/autocruise/SKILL.md`: when to use which tool, how to present prices, how to hold a fare safely, what to do on each error, and a repair checklist. Copy or link it into your agent's skills directory (for OpenClaw, the workspace `skills/` folder) so the assistant follows it.
+
+## 5. Approvals
 
 `sncf_connect_hold_fare` is annotated destructive and only acts with
 `confirm: true`; its description tells the model to show the preview and

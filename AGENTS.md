@@ -18,6 +18,10 @@ Status: early. The SNCF connector works; others are planned. Read [docs/ARCHITEC
 
 Dependency rules: connectors never depend on `rmcp` or `reqwest` (use `autocruise_core::http`); `server.rs` never names a connector.
 
+## Agent skill
+
+`.agents/skills/autocruise/SKILL.md` tells an agent how to use the tools and how to set up or repair the server. Keep it in sync with `docs/OPENCLAW.md` and the tool descriptions.
+
 ## Useful commands
 
 ```bash

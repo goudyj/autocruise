@@ -150,6 +150,7 @@ connection with a Tailscale exit node: [docs/EGRESS.md](docs/EGRESS.md).
 | [docs/EGRESS.md](docs/EGRESS.md) | Optional: browser traffic through your home connection |
 | [docs/connectors/](docs/connectors/) | One page per connector |
 | [AGENTS.md](AGENTS.md) | Guide for contributors and coding agents |
+| [.agents/skills/autocruise](.agents/skills/autocruise/SKILL.md) | Agent skill: using the tools well, setting up and repairing the server |
 
 ## Disclaimer
 
