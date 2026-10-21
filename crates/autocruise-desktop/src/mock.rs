@@ -4,6 +4,11 @@
 //! A mock holds a list of *screens* (application trees, typically recorded
 //! fixtures) and *transitions*: when an input matches a trigger, the current
 //! screen changes. Unmatched inputs are recorded and change nothing.
+//!
+//! With [`MockDesktop::with_scrolling`], wheel input scrolls web pages: the
+//! content of every top-level `document web` moves by [`SCROLL_STEP`]
+//! pixels per notch (the offset is kept across screens, like a page whose
+//! list grows).
 
 use std::sync::{Mutex, PoisonError};
 
@@ -27,11 +32,16 @@ struct Transition {
     to: usize,
 }
 
+/// Pixels per wheel notch when scrolling is simulated.
+pub const SCROLL_STEP: i32 = 120;
+
 #[derive(Debug, Default)]
 struct State {
     current: usize,
-    /// Inputs with the screen shown when each arrived.
-    inputs: Vec<(usize, Input)>,
+    /// Vertical scroll offset of web pages, in pixels.
+    scroll: i32,
+    /// Inputs with the screen (and scroll offset) shown when each arrived.
+    inputs: Vec<(usize, i32, Input)>,
     snapshots: usize,
 }
 
@@ -39,6 +49,7 @@ struct State {
 pub struct MockDesktop {
     screens: Vec<Node>,
     transitions: Vec<Transition>,
+    scrolling: bool,
     state: Mutex<State>,
 }
 
@@ -61,6 +72,21 @@ impl MockDesktop {
         )
     }
 
+    /// Simulates page scrolling on wheel input (see the module docs).
+    pub fn with_scrolling(mut self) -> Self {
+        self.scrolling = true;
+        self
+    }
+
+    /// Screen `index` as currently shown (scroll applied).
+    fn shown(&self, index: usize, scroll: i32) -> Option<Node> {
+        let mut tree = self.screens.get(index)?.clone();
+        if self.scrolling && scroll != 0 {
+            scroll_documents(&mut tree, scroll);
+        }
+        Some(tree)
+    }
+
     /// From any screen, go to `to` when `trigger` happens.
     pub fn transition(mut self, from: Option<usize>, trigger: Trigger, to: usize) -> Self {
         self.transitions.push(Transition { from, trigger, to });
@@ -81,26 +107,34 @@ impl MockDesktop {
 
     /// Every input received so far, in order.
     pub fn inputs(&self) -> Vec<Input> {
-        self.lock().inputs.iter().map(|(_, i)| i.clone()).collect()
+        self.lock()
+            .inputs
+            .iter()
+            .map(|(_, _, i)| i.clone())
+            .collect()
     }
 
     /// Every input with the index of the screen it was sent to.
     pub fn history(&self) -> Vec<(usize, Input)> {
-        self.lock().inputs.clone()
+        self.lock()
+            .inputs
+            .iter()
+            .map(|(s, _, i)| (*s, i.clone()))
+            .collect()
     }
 
     /// Name of the smallest named node under each click, on the screen that
     /// received it: what was actually pressed.
     pub fn clicked(&self) -> Vec<String> {
-        self.history()
+        let history = self.lock().inputs.clone();
+        history
             .into_iter()
-            .filter_map(|(screen, input)| match input {
-                Input::Click { x, y } => Some((screen, x, y)),
+            .filter_map(|(screen, scroll, input)| match input {
+                Input::Click { x, y } => Some((screen, scroll, x, y)),
                 _ => None,
             })
-            .map(|(screen, x, y)| {
-                self.screens
-                    .get(screen)
+            .map(|(screen, scroll, x, y)| {
+                self.shown(screen, scroll)
                     .and_then(|tree| {
                         tree.iter()
                             .filter(|n| {
@@ -109,8 +143,8 @@ impl MockDesktop {
                             .min_by_key(|n| {
                                 n.bounds.map(|b| i64::from(b.width) * i64::from(b.height))
                             })
+                            .map(|n| n.name.clone())
                     })
-                    .map(|n| n.name.clone())
                     .unwrap_or_default()
             })
             .collect()
@@ -130,12 +164,12 @@ impl MockDesktop {
         self.state.lock().unwrap_or_else(PoisonError::into_inner)
     }
 
-    fn matches(&self, screen: usize, trigger: &Trigger, input: &Input) -> bool {
+    fn matches(&self, screen: usize, scroll: i32, trigger: &Trigger, input: &Input) -> bool {
         match (trigger, input) {
             (Trigger::Key(k), Input::Key(i)) => k == i,
             (Trigger::Type(t), Input::Type(i)) => i.contains(t.as_str()),
             (Trigger::Click(name), Input::Click { x, y }) => {
-                self.screens.get(screen).is_some_and(|tree| {
+                self.shown(screen, scroll).is_some_and(|tree| {
                     tree.iter().any(|n| {
                         n.name.contains(name.as_str())
                             && n.bounds.is_some_and(|b| b.contains(*x, *y))
@@ -161,10 +195,8 @@ impl Desktop for MockDesktop {
     fn tree<'a>(&'a self, app: &'a str) -> BoxFuture<'a, Result<Node, DesktopError>> {
         let mut state = self.lock();
         state.snapshots += 1;
-        let result = match self.screens.get(state.current) {
-            Some(tree) if tree.name.to_lowercase().contains(&app.to_lowercase()) => {
-                Ok(tree.clone())
-            }
+        let result = match self.shown(state.current, state.scroll) {
+            Some(tree) if tree.name.to_lowercase().contains(&app.to_lowercase()) => Ok(tree),
             _ => Err(DesktopError::AppNotFound(app.to_owned())),
         };
         Box::pin(std::future::ready(result))
@@ -172,14 +204,41 @@ impl Desktop for MockDesktop {
 
     fn input(&self, input: Input) -> BoxFuture<'_, Result<(), DesktopError>> {
         let mut state = self.lock();
-        let current = state.current;
+        let (current, scroll) = (state.current, state.scroll);
         if let Some(t) = self.transitions.iter().find(|t| {
-            t.from.is_none_or(|f| f == current) && self.matches(current, &t.trigger, &input)
+            t.from.is_none_or(|f| f == current) && self.matches(current, scroll, &t.trigger, &input)
         }) {
             state.current = t.to;
         }
-        state.inputs.push((current, input));
+        if self.scrolling
+            && let Input::Scroll { notches, .. } = input
+        {
+            state.scroll += notches * SCROLL_STEP;
+        }
+        state.inputs.push((current, scroll, input));
         Box::pin(std::future::ready(Ok(())))
+    }
+}
+
+/// Moves the content of top-level web documents up by `dy` pixels.
+fn scroll_documents(node: &mut Node, dy: i32) {
+    if node.role == "document web" {
+        for child in &mut node.children {
+            shift(child, dy);
+        }
+    } else {
+        for child in &mut node.children {
+            scroll_documents(child, dy);
+        }
+    }
+}
+
+fn shift(node: &mut Node, dy: i32) {
+    if let Some(b) = node.bounds.as_mut() {
+        b.y -= dy;
+    }
+    for child in &mut node.children {
+        shift(child, dy);
     }
 }
 
@@ -210,6 +269,35 @@ mod tests {
         mock.input(Input::Key("Return".into())).await.unwrap();
         assert_eq!(mock.current(), 2);
         assert_eq!(mock.inputs().len(), 4);
+    }
+
+    #[tokio::test]
+    async fn scrolling_moves_page_content_only() {
+        let page = Node::new("application", "Google Chrome").with_children(vec![
+            Node::new("entry", "Address and search bar").with_bounds(Rect::new(0, 50, 100, 20)),
+            Node::new("document web", "Page")
+                .with_bounds(Rect::new(0, 87, 1000, 900))
+                .with_children(vec![
+                    Node::new("button", "Far").with_bounds(Rect::new(10, 1400, 100, 40)),
+                ]),
+        ]);
+        let mock = MockDesktop::new(vec![page])
+            .with_scrolling()
+            .on_click("Far", 0);
+        mock.input(Input::Scroll {
+            x: 500,
+            y: 500,
+            notches: 5,
+        })
+        .await
+        .unwrap();
+        let tree = mock.tree("chrome").await.unwrap();
+        let far = tree.find_role("button", |n| n == "Far").unwrap();
+        assert_eq!(far.bounds.unwrap().y, 1400 - 5 * SCROLL_STEP);
+        let bar = tree.find_role("entry", |_| true).unwrap();
+        assert_eq!(bar.bounds.unwrap().y, 50);
+        mock.input(Input::Click { x: 20, y: 820 }).await.unwrap();
+        assert_eq!(mock.clicked(), ["Far"]);
     }
 
     #[tokio::test]
