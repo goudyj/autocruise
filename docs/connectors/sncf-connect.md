@@ -165,3 +165,12 @@ autocruise call sncf_connect_prices '{"from":"Paris","to":"Lyon","date":"2026-10
   fixtures are a Monday 26 October afternoon: first page, after "Display the
   next journeys", after "Display previous journeys"; `journey_detail.json`
   is the "This journey in detail" dialog of the 17:00 TGV INOUI 6623.
+
+## Concurrency and background checks
+
+- One flow at a time per browser, **across processes**: an advisory lock
+  (`$XDG_RUNTIME_DIR/autocruise-desktop-<display>.lock`) makes a second
+  autocruise process wait up to 3 minutes, then fail with `rate_limited`.
+- DataDome runs an invisible "Device Check" iframe on normal pages. It is
+  ignored unless it is actually shown (at least 150×100 px on screen); visible
+  check and block texts always stop the tool with `user_action_required`.

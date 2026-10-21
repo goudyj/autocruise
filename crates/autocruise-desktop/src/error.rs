@@ -21,6 +21,9 @@ pub enum DesktopError {
     /// The key or character cannot be produced.
     #[error("cannot type {0:?}")]
     UnsupportedKey(String),
+    /// Another process is driving the same application.
+    #[error("{0}; try again in a minute")]
+    Busy(String),
     /// An unexpected protocol failure (D-Bus, X11).
     #[error("desktop protocol error: {0}")]
     Protocol(String),
@@ -32,6 +35,7 @@ impl Classify for DesktopError {
             Self::Unavailable(_) | Self::AppNotFound(_) => ErrorKind::UserActionRequired,
             Self::Timeout(_) | Self::NotClickable(_) => ErrorKind::Upstream,
             Self::UnsupportedKey(_) => ErrorKind::InvalidInput,
+            Self::Busy(_) => ErrorKind::RateLimited,
             Self::Protocol(_) => ErrorKind::Internal,
         }
     }

@@ -23,6 +23,7 @@ mod driver;
 mod error;
 pub mod keys;
 pub mod linux;
+mod lock;
 pub mod mock;
 mod node;
 pub mod record;
@@ -32,6 +33,7 @@ use std::fmt;
 pub use autocruise_core::http::BoxFuture;
 pub use driver::{Check, Driver};
 pub use error::DesktopError;
+pub use lock::AppLock;
 pub use node::{Node, Rect};
 
 /// One real input event sequence.

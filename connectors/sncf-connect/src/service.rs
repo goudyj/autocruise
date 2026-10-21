@@ -7,7 +7,7 @@ use autocruise_core::cache::TtlCache;
 use autocruise_core::throttle::Throttle;
 use autocruise_core::time;
 use autocruise_desktop::linux::LinuxDesktop;
-use autocruise_desktop::{Check, Desktop, DesktopError, Driver, Node, Rect};
+use autocruise_desktop::{AppLock, Check, Desktop, DesktopError, Driver, Node, Rect};
 use chrono::{DateTime, NaiveDate, NaiveTime, Timelike};
 use chrono_tz::Tz;
 use tokio::sync::Mutex;
@@ -61,8 +61,10 @@ pub struct SncfConnect {
     driver: Driver,
     timing: Timing,
     cache: TtlCache<PricesResult>,
-    /// One browser session: one search at a time.
+    /// One browser session: one search at a time in this process.
     busy: Mutex<()>,
+    /// Same, across processes driving the same display (None in tests).
+    process_lock: Option<std::path::PathBuf>,
     searches: Throttle,
     /// Fixed "today" (tests); the real date otherwise.
     today: Option<NaiveDate>,
@@ -206,6 +208,7 @@ impl SncfConnect {
                 .with_poll_interval(timing.poll),
             cache: TtlCache::new(timing.cache_ttl, 32),
             busy: Mutex::new(()),
+            process_lock: None,
             searches: Throttle::new(timing.search_interval),
             timing,
             today: None,
@@ -225,7 +228,25 @@ impl SncfConnect {
     /// The user's desktop, from `AUTOCRUISE_DESKTOP_DISPLAY` /
     /// `AUTOCRUISE_DESKTOP_DBUS` (see the connector documentation).
     pub fn from_env() -> Self {
-        Self::new(Arc::new(LinuxDesktop::from_env()))
+        let desktop = LinuxDesktop::from_env();
+        let lock = AppLock::default_path(desktop.config().display.as_deref());
+        Self::new(Arc::new(desktop)).with_process_lock(lock)
+    }
+
+    /// Also serializes with other processes driving the same browser, through
+    /// an advisory lock on `path`.
+    pub fn with_process_lock(mut self, path: std::path::PathBuf) -> Self {
+        self.process_lock = Some(path);
+        self
+    }
+
+    async fn lock_process(&self) -> Result<Option<AppLock>, SncfConnectError> {
+        match &self.process_lock {
+            Some(path) => Ok(Some(
+                AppLock::acquire(path, Duration::from_secs(180), Duration::from_secs(1)).await?,
+            )),
+            None => Ok(None),
+        }
     }
 
     /// Train prices for one day, read from SNCF Connect in the user's browser.
@@ -236,6 +257,7 @@ impl SncfConnect {
             return Ok(req.filter(hit));
         }
         let _one_at_a_time = self.busy.lock().await;
+        let _other_processes = self.lock_process().await?;
         if let Some(hit) = self.cache.get(&key) {
             return Ok(req.filter(hit));
         }
@@ -291,6 +313,7 @@ impl SncfConnect {
         }
 
         let _one_at_a_time = self.busy.lock().await;
+        let _other_processes = self.lock_process().await?;
         self.searches.wait().await;
         let found = self.search(&req).await?;
         let (journey, nth) = pick_journey(&found.journeys, req.date, departure, number)?;
