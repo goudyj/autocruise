@@ -22,9 +22,8 @@ pub(crate) const SERVICES_TITLE: &str = "SNCF Connect - Services";
 pub(crate) const BASKET_TITLE: &str = "SNCF Connect - Basket";
 
 /// Texts of bot checks and block pages (DataDome), English and French, as
-/// seen in the page or in the title of the check's iframe. Bare "datadome"
-/// is not a marker: the word shows up outside challenges (extensions,
-/// history, scripts of third-party frames).
+/// shown to the user in the page. Bare "datadome" is not a marker: the word
+/// shows up outside challenges (extensions, history, third-party scripts).
 const CHALLENGE_MARKERS: &[&str] = &[
     "access is temporarily restricted",
     "accès temporairement restreint",
@@ -32,13 +31,29 @@ const CHALLENGE_MARKERS: &[&str] = &[
     "vérification requise",
     "slide right",
     "glissez vers la droite",
-    "captcha-delivery",
-    "datadome captcha",
-    "datadome device check",
     "please enable js and disable any ad blocker",
     "we want to make sure it is actually you",
     "nous souhaitons nous assurer qu'il s'agit bien de vous",
 ];
+
+/// Names of DataDome's iframes. DataDome also runs an invisible
+/// "Device Check" frame in the background on normal pages, so these only
+/// count when the frame is actually shown with a usable size.
+const CHALLENGE_FRAME_MARKERS: &[&str] = &[
+    "captcha-delivery",
+    "datadome captcha",
+    "datadome device check",
+];
+
+/// Smallest on-screen frame taken as a shown check (DataDome's visible
+/// checks are several hundred pixels wide; background frames are 0x0 or tiny).
+const MIN_CHALLENGE_FRAME: (i32, i32) = (150, 100);
+
+fn frame_is_shown(n: &Node) -> bool {
+    n.bounds
+        .is_some_and(|b| b.width >= MIN_CHALLENGE_FRAME.0 && b.height >= MIN_CHALLENGE_FRAME.1)
+        && (n.states.is_empty() || n.has_state("showing"))
+}
 
 /// Replaces the narrow and non-breaking spaces SNCF Connect uses.
 pub(crate) fn normalize(s: &str) -> String {
@@ -60,6 +75,13 @@ pub(crate) fn challenge(app: &Node) -> Option<String> {
         if let Some(m) = CHALLENGE_MARKERS
             .iter()
             .find(|m| texts.iter().any(|t| t.contains(*m)))
+        {
+            return Some((*m).to_owned());
+        }
+        if let Some(m) = CHALLENGE_FRAME_MARKERS
+            .iter()
+            .find(|m| texts.iter().any(|t| t.contains(*m)))
+            && frame_is_shown(n)
         {
             return Some((*m).to_owned());
         }
@@ -947,6 +969,30 @@ mod tests {
                 )]),
             ]));
         assert_eq!(challenge(&app).as_deref(), Some("slide right"));
+    }
+
+    #[test]
+    fn a_background_device_check_frame_is_not_a_challenge() {
+        // DataDome's invisible device check, as seen on normal pages.
+        for bounds in [
+            None,
+            Some(Rect::new(0, 0, 0, 0)),
+            Some(Rect::new(10, 10, 1, 1)),
+        ] {
+            let mut app = tree(RESULTS);
+            let mut frame = Node::new("internal frame", "DataDome Device Check")
+                .with_children(vec![Node::new("document web", "")]);
+            frame.bounds = bounds;
+            active_doc_mut(&mut app).children.push(frame);
+            assert_eq!(challenge(&app), None, "{bounds:?}");
+        }
+        // The same frame shown in the middle of the page is a check.
+        let mut app = tree(RESULTS);
+        active_doc_mut(&mut app).children.push(
+            Node::new("internal frame", "DataDome Device Check")
+                .with_bounds(Rect::new(560, 300, 800, 500)),
+        );
+        assert_eq!(challenge(&app).as_deref(), Some("datadome device check"));
     }
 
     #[test]
