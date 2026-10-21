@@ -21,7 +21,10 @@ pub(crate) const TIME_COMBO: &str = "Outbound journey time";
 pub(crate) const SERVICES_TITLE: &str = "SNCF Connect - Services";
 pub(crate) const BASKET_TITLE: &str = "SNCF Connect - Basket";
 
-/// Texts of bot checks and block pages (DataDome), English and French.
+/// Texts of bot checks and block pages (DataDome), English and French, as
+/// seen in the page or in the title of the check's iframe. Bare "datadome"
+/// is not a marker: the word shows up outside challenges (extensions,
+/// history, scripts of third-party frames).
 const CHALLENGE_MARKERS: &[&str] = &[
     "access is temporarily restricted",
     "accès temporairement restreint",
@@ -30,7 +33,8 @@ const CHALLENGE_MARKERS: &[&str] = &[
     "slide right",
     "glissez vers la droite",
     "captcha-delivery",
-    "datadome",
+    "datadome captcha",
+    "datadome device check",
     "please enable js and disable any ad blocker",
     "we want to make sure it is actually you",
     "nous souhaitons nous assurer qu'il s'agit bien de vous",
@@ -41,23 +45,70 @@ pub(crate) fn normalize(s: &str) -> String {
     s.replace(['\u{202f}', '\u{a0}'], " ").trim().to_owned()
 }
 
-/// The marker of a bot check or block page anywhere in the application.
+/// The marker of a bot check or block page in the page shown in the active
+/// tab, including its iframes (the DataDome check is an iframe from
+/// captcha-delivery.com). Other tabs, the address bar, extension popups and
+/// ad frames are not looked at.
 pub(crate) fn challenge(app: &Node) -> Option<String> {
-    app.iter().find_map(|n| {
+    let doc = active_document(app)?;
+    let mut stack = vec![doc];
+    while let Some(n) = stack.pop() {
         let texts = [
             n.name.to_lowercase(),
             n.value.clone().unwrap_or_default().to_lowercase(),
         ];
-        CHALLENGE_MARKERS
+        if let Some(m) = CHALLENGE_MARKERS
             .iter()
             .find(|m| texts.iter().any(|t| t.contains(*m)))
-            .map(|m| (*m).to_owned())
-    })
+        {
+            return Some((*m).to_owned());
+        }
+        stack.extend(
+            n.children
+                .iter()
+                .filter(|c| !(c.role == "internal frame" && c.name == "Advertisement")),
+        );
+    }
+    None
 }
 
-/// The page shown in the active tab.
+/// Top-level documents (not inside another document): the pages of tabs,
+/// extension popups, Chrome's own web UI.
+fn top_documents(app: &Node) -> Vec<&Node> {
+    let mut out = Vec::new();
+    let mut stack = vec![app];
+    while let Some(n) = stack.pop() {
+        if n.role == "document web" {
+            out.push(n);
+        } else {
+            stack.extend(n.children.iter().rev());
+        }
+    }
+    out
+}
+
+/// The page of the active tab: the largest top-level document on screen
+/// (Chrome keeps hidden tabs out of `showing`; popups are small).
+pub(crate) fn active_document(app: &Node) -> Option<&Node> {
+    let docs = top_documents(app);
+    let showing: Vec<&Node> = docs
+        .iter()
+        .copied()
+        .filter(|d| d.has_state("showing"))
+        .collect();
+    let pool = if showing.is_empty() { docs } else { showing };
+    let area = |d: &Node| {
+        d.bounds
+            .filter(|b| !b.is_empty())
+            .map_or(0, |b| i64::from(b.width) * i64::from(b.height))
+    };
+    // max_by_key keeps the last maximum: reverse so ties go to the first.
+    pool.into_iter().rev().max_by_key(|d| area(d))
+}
+
+/// The page shown in the active tab, once it has a title.
 pub(crate) fn document(app: &Node) -> Option<&Node> {
-    app.find(|n| n.role == "document web" && !n.name.is_empty())
+    active_document(app).filter(|d| !d.name.is_empty())
 }
 
 /// Chrome's address bar.
@@ -559,6 +610,7 @@ pub(crate) fn hold_offer(doc: &Node) -> HoldOffer {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use autocruise_desktop::Rect;
 
     #[test]
     fn payment_controls() {
@@ -665,5 +717,87 @@ mod tests {
             Some("access is temporarily restricted")
         );
         assert_eq!(challenge(&Node::new("document web", "SNCF Connect")), None);
+    }
+
+    const RESULTS: &str = include_str!("../tests/fixtures/results.json");
+
+    fn tree(json: &str) -> Node {
+        serde_json::from_str(json).expect("fixture")
+    }
+
+    fn active_doc_mut(app: &mut Node) -> &mut Node {
+        fn walk(n: &mut Node) -> Option<&mut Node> {
+            if n.role == "document web" && n.has_state("showing") && !n.name.is_empty() {
+                return Some(n);
+            }
+            n.children.iter_mut().find_map(walk)
+        }
+        walk(app).expect("active document")
+    }
+
+    #[test]
+    fn markers_outside_the_active_document_are_not_a_challenge() {
+        let mut app = tree(RESULTS);
+        let frame = &mut app.children[0];
+        // Another tab, the address bar, an extension popup, history.
+        frame.children.push(
+            Node::new("page tab", "DataDome CAPTCHA - captcha-delivery.com")
+                .with_bounds(Rect::new(290, 0, 256, 41)),
+        );
+        frame.children.push(Node {
+            value: Some("geo.captcha-delivery.com/captcha/?initialCid=x".into()),
+            ..Node::new("entry", "Address and search bar")
+        });
+        frame.children.push(
+            Node::new("document web", "Bitwarden")
+                .with_bounds(Rect::new(1500, 90, 380, 600))
+                .with_children(vec![Node::new("static", "Verification required")]),
+        );
+        // A background tab still in the tree, not shown.
+        frame.children.push(
+            Node::new("document web", "History")
+                .with_bounds(Rect::new(0, 87, 1919, 992))
+                .with_children(vec![Node::new(
+                    "link",
+                    "Access is temporarily restricted - sncf-connect.com",
+                )]),
+        );
+        // The word alone, in the page: a script or a cookie banner.
+        active_doc_mut(&mut app)
+            .children
+            .push(Node::new("static", "Protected by DataDome"));
+        // An ad frame inside the page.
+        active_doc_mut(&mut app).children.push(
+            Node::new("internal frame", "Advertisement")
+                .with_children(vec![Node::new("static", "Slide right to see our offers")]),
+        );
+        assert_eq!(challenge(&app), None);
+        assert_eq!(
+            document(&app).map(|d| d.name.as_str()),
+            Some(RESULTS_TITLE),
+            "the active page is still found"
+        );
+    }
+
+    #[test]
+    fn a_captcha_iframe_inside_the_active_document_is_a_challenge() {
+        let mut app = tree(RESULTS);
+        active_doc_mut(&mut app).children.push(
+            Node::new("internal frame", "DataDome CAPTCHA")
+                .with_bounds(Rect::new(560, 300, 800, 500))
+                .with_children(vec![Node::new("document web", "")]),
+        );
+        assert_eq!(challenge(&app).as_deref(), Some("datadome captcha"));
+
+        let mut app = tree(RESULTS);
+        active_doc_mut(&mut app)
+            .children
+            .push(Node::new("internal frame", "").with_children(vec![
+                Node::new("document web", "").with_children(vec![Node::new(
+                    "static",
+                    "Slide right to secure your access",
+                )]),
+            ]));
+        assert_eq!(challenge(&app).as_deref(), Some("slide right"));
     }
 }
