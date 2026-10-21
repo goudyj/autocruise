@@ -54,11 +54,22 @@ openclaw mcp doctor autocruise --probe
 ### SNCF API token (`sncf` connector)
 
 The official-API connector needs `SNCF_API_TOKEN` in the **server's**
-environment. Do not write it in plain text into `openclaw.json`: use
-OpenClaw's secret mechanisms (see the OpenClaw secrets documentation for what
-`mcp.servers.*.env` accepts in your version). The Gateway's exec egress proxy
-does not apply here: autocruise calls `api.sncf.com` itself and needs the
-real value.
+environment. In OpenClaw 2026.9, `mcp.servers.*.env` only takes plain
+strings (no SecretRef), and the Gateway's exec egress proxy does not apply
+(autocruise calls `api.sncf.com` itself). So keep the token out of
+`openclaw.json` and start the server through `deploy/autocruise-env.sh`,
+which loads a private env file:
+
+```sh
+# Type the token at the hidden prompt (not stored in shell history).
+mkdir -p ~/.config/autocruise && (umask 077; read -rsp 'SNCF token: ' t; echo; \
+  printf 'SNCF_API_TOKEN=%s\n' "$t" > ~/.config/autocruise/env)
+```
+
+and use it as the command in step 3:
+`--command "$PWD/deploy/autocruise-env.sh"`. The launcher refuses an env file
+readable by others. The token still sits in plain text in that file (mode
+600): that is the trade-off.
 
 ## 4. Approvals
 
